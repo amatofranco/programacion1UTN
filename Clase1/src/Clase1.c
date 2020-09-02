@@ -21,7 +21,7 @@
  char letra2;
 
  char nombre[20] = "Juan";
- /*
+
  printf("Ingrese número 1 \n");
 
  scanf ("%d", &num1);
