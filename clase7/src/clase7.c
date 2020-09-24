@@ -5,10 +5,12 @@ Ingresar la carga de 5 empleados con nro legajo (correspondiente al nro de indic
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "utn.h"
 #define MAX 5
 
 int main(void) {
 
+	/*
 	int edades [MAX];
 	int sueldo [MAX];
 	int acumSueldo = 0;
@@ -28,6 +30,20 @@ int main(void) {
 
 	printf("Suma sueldos: %d",acumSueldo);
 	printf("\nPromedio sueldo: %.2f", promedio);
+
+*/
+
+	int resultado;
+
+	if(utn_getNumero(&resultado, "Ingrese numero \n", "Error \n", -10, 100, 2)==0){
+
+		printf("El numero es: %d \n", resultado);
+
+	}
+
+	else {
+		printf("Se quedo sin reintentos");
+	}
 
 
 	return EXIT_SUCCESS;
