@@ -49,15 +49,14 @@ int getEmployee(Employee* list, int len);
 /**
 * Agrega en la primer posición libre del array de empleados
 * los parámetros reales recibidos
-* @param list employee*
-* @param len int
-* @param id int
-* @param name[] char
-* @param lastName[] char
-* @param salary float
-* @param sector int
-* @return int Return (-1) if Error [Invalid length or NULL pointer or without
-free space] - (0) if Ok
+* @param list Puntero a array de empleados
+* @param len longitud del array
+* @param id id generado
+* @param name[] nombre del empleado
+* @param lastName[] apellido del empleado
+* @param salary sueldo del empleado
+* @param sector sector de empleado
+* @return 0 Éxito -1 Error
 */
 int addEmployee(Employee* list, int len, int id, char name[],char
 lastName[],float salary,int sector);
