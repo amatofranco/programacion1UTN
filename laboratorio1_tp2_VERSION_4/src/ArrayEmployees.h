@@ -37,10 +37,11 @@ int initEmployees(Employee* list, int len);
 
 
 /**
- * Valida los parámetros reales para agregar un empleado
- * y llama a la función add employee
+ * Valida los datos recibidos para agregar un empleado,
+ * llama a la función add employee y asigna un Id único
  * @param list puntero a Array de empleados
  * @param len longitud del array
+ * @param *pId puntero a contador de Id
  * @return 0 Éxito -1 ERror
  */
 
@@ -48,7 +49,7 @@ int getEmployee(Employee *list, int length, int *pId);
 
 /**
 * Agrega en la primer posición libre del array de empleados
-* los parámetros reales recibidos
+* los datos validados
 * @param list Puntero a array de empleados
 * @param len longitud del array
 * @param id id generado
