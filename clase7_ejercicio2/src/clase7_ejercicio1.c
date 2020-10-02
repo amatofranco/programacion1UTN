@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "utn.h"
+#include "arrays.h"
 #define LENGHT 5 //tamaño del array
 
-void inicializarArray(int array[], int lenght);
-void cargarIntArray(char* mensajePos, char* mensajeValor, char*mensajeError, int array[], int lenght);
 void promedioSueldo(float sueldo[], int lenght);
 void mostrarEmpleados(int edades[], float sueldo[], int lenght);
 
@@ -12,46 +12,15 @@ int main(void) {
 	int edades[LENGHT];
 	float sueldo[LENGHT];
 
-	inicializarArray(edades,LENGHT);
-	cargarIntArray ("Elija la posicion", "Ingrese la edad", "Posicion incorrecta",edades,LENGHT);
+	inicArrayInt(edades,LENGHT);
+	inicArrayFloat(sueldo,LENGHT);
+
+	cargarArrayInt("Elija la posicion", "Ingrese la edad", "Posicion incorrecta",edades,LENGHT);
 
 
 	return EXIT_SUCCESS;
 }
 
-void inicializarArray(int array[], int lenght)
-{
-	for (int i = 0; i < lenght; i++) {
-		array[i] = 0;
-	}
-}
-
-void cargarIntArray(char* mensajePos, char* mensajeValor, char*mensajeError, int array[], int lenght) {
-
-	int i;
-	char respuesta;
-
-
-	do {
-			printf("%s \n",mensajePos);
-			scanf("%d", &i);
-			if (i>=0 && i<=lenght){
-
-			printf("%s \n", mensajeValor);
-			scanf("%d", &array[i]);
-			}
-			else{
-				printf("%s \n", mensajeError);
-			}
-
-			printf("Seguir ingresando? (s/n): ");
-			fpurge(stdin);
-			scanf("%c", &respuesta);
-
-
-		} while (respuesta != 'n');
-
-}
 
 void promedioSueldo(float sueldo[], int lenght){
 

@@ -14,10 +14,24 @@ int main(void) {
 
 	int edades[LENGHT];
 	float sueldo[LENGHT];
+	char nombres[LENGHT][20];
+
+	for(int i=0;i<LENGHT;i++){
+
+		printf("Ingrese nombre para legajo: %d \n",i+1);
+		fgets(nombres[i],LENGHT,stdin);
+
+	}
+
+
 
 	//Cuando la carga de array va ser aleatoria, debe inicializarse todo el array en 0
 	inicializar(edades,sueldo,LENGHT);
 	cargar(edades,sueldo,LENGHT);
+
+
+
+
 	promedioSueldo(sueldo,LENGHT);
 	ordenarSueldos(edades,sueldo,LENGHT);
 	mostrarEmpleados(edades,sueldo,LENGHT);
@@ -30,7 +44,6 @@ void inicializar(int edades[], float sueldo[], int lenght) {
 	for (int i = 0; i < LENGHT; i++) {
 		edades[i] = 0;
 		sueldo[i] = 0;
-
 	}
 }
 
