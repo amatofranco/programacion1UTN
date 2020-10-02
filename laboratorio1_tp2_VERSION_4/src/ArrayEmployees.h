@@ -44,7 +44,7 @@ int initEmployees(Employee* list, int len);
  * @return 0 Éxito -1 ERror
  */
 
-int getEmployee(Employee* list, int len);
+int getEmployee(Employee *list, int length, int *pId);
 
 /**
 * Agrega en la primer posición libre del array de empleados

@@ -23,6 +23,8 @@ int main(void) {
 
 	Employee arrayEmployees[QTY_EMPLOYEES];
 
+
+	int id = MIN_ID;
 	int option;
 	int ret;
 
@@ -30,10 +32,9 @@ int main(void) {
 
 	do {
 
-		ret =
-				utn_getNumero(&option,
-						"Seleccione una opción \n 1- Alta Empleado \n 2- Modificar Empleado \n 3- Baja Empleado \n 4- Informar Listado \n 5 Salir \n",
-						"Opción no válida  \n", 1, 5, 2);
+		ret = utn_getNumero(&option, "Seleccione una opción \n 1- Alta Empleado \n "
+			  "2- Modificar Empleado \n 3- Baja Empleado \n 4- Informar Listado "
+			  "\n 5 Salir \n", "Opción no válida  \n", 1, 5, 2);
 
 		if (ret == 0) {
 
@@ -41,7 +42,7 @@ int main(void) {
 
 			case 1:
 
-				if (getEmployee(arrayEmployees, QTY_EMPLOYEES) == 0) {
+				if (getEmployee(arrayEmployees, QTY_EMPLOYEES, &id) == 0) {
 					successMessage();
 				}
 
