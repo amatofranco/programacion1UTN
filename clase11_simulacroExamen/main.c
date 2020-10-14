@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "Cliente.h"
+
+#include "Pantalla.h"
 #include "utn_inputs.h"
 
 /**
@@ -21,16 +22,18 @@ void arrayVacio();
 
 void arrayCompleto();
 
+
+
 int main(void) {
 
-	Cliente arrayClientes[QTY_CLIENTES];
+	Pantalla arrayPantallas[QTY_PANTALLAS];
 
 	int id = MIN_ID;
 	int indiceAux;
 	int opcion;
 	int ret;
 
-	if (cliente_iniciar(arrayClientes, QTY_CLIENTES) == 0) {
+	if (pantalla_iniciar(arrayPantallas, QTY_PANTALLAS) == 0) {
 
 		printf("El programa se inició correctamente \n");
 	}
@@ -38,10 +41,10 @@ int main(void) {
 	do {
 
 		ret = utn_getNumero(&opcion, "Seleccione una opción \n "
-				"1- Alta Cliente \n "
-				"2- Modificar Cliente \n "
-				"3- Baja Cliente \n "
-				"4- Imprimir Listado de Clientes \n "
+				"1- (Cargar) Alta Pantalla \n "
+				"2- Modificar Pantalla \n "
+				"3- (Eliminar) Baja Pantalla \n "
+				"4- Imprimir Listado de Pantallas \n "
 				"5- Salir \n", "Opción no válida  \n", 1, 5, 2);
 
 		if (ret == 0) {
@@ -50,11 +53,11 @@ int main(void) {
 
 			case 1:
 
-				indiceAux = cliente_emptyIndex(arrayClientes, QTY_CLIENTES);
+				indiceAux = pantalla_emptyIndex(arrayPantallas, QTY_PANTALLAS);
 
 				if (indiceAux >= 0) {
 
-					if (cliente_alta(arrayClientes, QTY_CLIENTES, indiceAux,
+					if (pantalla_alta(arrayPantallas, QTY_PANTALLAS, indiceAux,
 							&id) == 0) {
 						mensajeExito();
 					} else {
@@ -72,9 +75,9 @@ int main(void) {
 
 			case 2:
 
-				if (cliente_emptyArray(arrayClientes, QTY_CLIENTES) == 0) {
+				if (pantalla_emptyArray(arrayPantallas, QTY_PANTALLAS) == 0) {
 
-					if (cliente_modificar(arrayClientes, QTY_CLIENTES) == 0) {
+					if (pantalla_modificar(arrayPantallas, QTY_PANTALLAS) == 0) {
 
 						mensajeExito();
 					}
@@ -92,9 +95,9 @@ int main(void) {
 
 			case 3:
 
-				if (cliente_emptyArray(arrayClientes, QTY_CLIENTES) == 0) {
+				if (pantalla_emptyArray(arrayPantallas, QTY_PANTALLAS) == 0) {
 
-					if (cliente_baja(arrayClientes, QTY_CLIENTES) == 0) {
+					if (pantalla_baja(arrayPantallas, QTY_PANTALLAS) == 0) {
 
 						mensajeExito();
 					}
@@ -112,10 +115,10 @@ int main(void) {
 
 			case 4:
 
-				if (cliente_emptyArray(arrayClientes, QTY_CLIENTES) == 0) {
+				if (pantalla_emptyArray(arrayPantallas, QTY_PANTALLAS) == 0) {
 
-					if (cliente_ordenarPorNombreDni(arrayClientes, QTY_CLIENTES) == 0
-					 && cliente_imprimirArray(arrayClientes,QTY_CLIENTES) == 0) {
+					if (pantalla_ordenar(arrayPantallas, QTY_PANTALLAS) == 0
+					 && pantalla_imprimirArray(arrayPantallas,QTY_PANTALLAS) == 0) {
 
 						mensajeExito();
 					}
@@ -176,4 +179,5 @@ void arrayCompleto() {
 	printf("%s", mensaje);
 
 }
+
 
