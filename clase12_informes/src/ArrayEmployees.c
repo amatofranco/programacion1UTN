@@ -475,3 +475,73 @@ int printEmployeeList(Employee *list, int len) {
 
 }
 
+int searchSector(Employee *list, int len) {
+
+	int ret = -1;
+
+	int sector;
+
+	int flagSector = 0;
+
+	if (list != NULL && len > 0) {
+
+		if (utn_getNumero(&sector,
+				"Indique el sector a informar\n",
+				"Opción inválida \n", 1, 20, 2) == 0) {
+
+			for (int i=0;i<len;i++){
+
+				if (list[i].isEmpty == 0 && list[i].sector == sector){
+
+					// printEmployee(&list[i]);
+
+					printf("Empleado: %s %s, sector: %d \n", list[i].lastName, list[i].name, list[i].sector);
+
+					flagSector = 1;
+
+				}
+
+
+
+			}
+
+		}
+
+			if(flagSector==1){
+
+				ret = 0;
+			}
+
+	}
+
+	return ret;
+
+}
+
+int altaForzada(Employee *list, int len, int *pId){
+
+	int ret = -1;
+
+
+
+	if (addEmployee(list, len, 1, "Juan", "Perez", 45000, 1) == 0 &&
+		addEmployee(list, len, 2, "Roberta", "Gomez", 90000, 3) == 0 &&
+		addEmployee(list, len, 3, "Chola", "Rodriguez", 50000, 4) == 0){
+		         ret = 0;
+		         *pId = 4;
+
+
+	}
+
+
+
+
+
+
+	return ret;
+
+
+
+}
+
+

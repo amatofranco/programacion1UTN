@@ -21,10 +21,6 @@ void isEmptyMessage();
 
 int main(void) {
 
-	Employee arrayEmployees[QTY_EMPLOYEES];
-
-
-	int id = MIN_ID;
 	int option;
 	int ret;
 

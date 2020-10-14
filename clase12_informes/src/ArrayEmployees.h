@@ -166,6 +166,11 @@ int averageSalary(Employee *list, int length);
 
 int printEmployeeList (Employee* list, int len);
 
+int searchSector(Employee *list, int len);
+
+int altaForzada(Employee *list, int len, int *pId);
+
+
 
 #endif /* ARRAYEMPLOYEES_H_ */
 

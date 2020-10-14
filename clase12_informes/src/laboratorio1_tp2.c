@@ -33,11 +33,20 @@ int main(void) {
 		printf("El programa se inició correctamente \n");
 	}
 
+	if (altaForzada(arrayEmployees,QTY_EMPLOYEES,&id)==0){
+
+		printf("Alta forzada exitosa \n");
+
+
+	}
+
+
+
 	do {
 
 		ret = utn_getNumero(&option, "Seleccione una opción \n 1- Alta Empleado \n "
 			  "2- Modificar Empleado \n 3- Baja Empleado \n 4- Informar Listado "
-			  "\n 5 Salir \n", "Opción no válida  \n", 1, 5, 2);
+			  "\n 5 Informar por sector \n 6 Salir \n", "Opción no válida  \n", 1, 6, 2);
 
 		if (ret == 0) {
 
@@ -115,6 +124,18 @@ int main(void) {
 				}
 				break;
 			case 5:
+				if (searchSector(arrayEmployees,QTY_EMPLOYEES)==0){
+
+					successMessage();
+				}
+
+				else {
+					printf("No hay empleados cargados en ese sector \n");
+				}
+				break;
+
+
+			case 6:
 				printf("Saliendo del programa");
 			}
 
@@ -122,7 +143,7 @@ int main(void) {
 			errorMessage();
 		}
 
-	} while (option != 5);
+	} while (option != 6);
 
 	return EXIT_SUCCESS;
 
