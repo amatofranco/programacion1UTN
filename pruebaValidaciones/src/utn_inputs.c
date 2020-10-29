@@ -84,6 +84,9 @@ static int esAlfanumerica(char *cadena, int limite);
 
 static int esDni(char *cadena, int limite);
 
+static int esTexto(char* stringRecibido);
+
+
 static int myGets(char *cadena, int longitud) {
 
 	int ret = -1;
@@ -607,6 +610,57 @@ int utn_getChar(char *pResultado, char *mensaje, char *mensajeError, int minimo,
 			{
 
 				*pResultado=bufferString[0];
+				ret = 0;
+				break;
+			}
+
+			else {
+				printf("%s", mensajeError);
+				reintentos--;
+
+			}
+
+		} while (reintentos >= 0);
+
+	}
+	return ret;
+
+}
+
+static int esTexto(char* stringRecibido)
+{
+    int retorno=1;
+    int i;
+    for(i=0;stringRecibido[i]!='\0';i++)
+    {
+        if(stringRecibido[i]<' ' || stringRecibido[i]>'z')
+        {
+            retorno=0;
+            break;
+        }
+    }
+    return retorno;
+}
+int utn_getTexto(char *pResultado, char *mensaje, char *mensajeError, int minimo,
+		int maximo, int reintentos) {
+
+	int ret = -1;
+
+	if (pResultado != NULL && mensaje != NULL && mensajeError != NULL) {
+
+		char bufferString[maximo];
+
+		do {
+
+			printf("%s", mensaje);
+
+
+			if (myGets(bufferString, maximo) == 0
+				&& esTexto(bufferString)
+			    && strlen(bufferString)>=minimo
+			    && strlen(bufferString)<=maximo) {
+
+				strncpy(pResultado, bufferString, maximo);
 				ret = 0;
 				break;
 			}

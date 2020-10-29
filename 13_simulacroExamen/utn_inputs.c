@@ -82,7 +82,8 @@ static int getAlfanumerica(char *pResultado);
 
 static int esAlfanumerica(char *cadena, int limite);
 
-static int esDni(char *cadena, int limite);
+
+
 
 static int myGets(char *cadena, int longitud) {
 
@@ -465,6 +466,7 @@ static int esAlfanumerica(char *cadena, int limite) {
 
 	return ret;
 
+
 }
 
 static int getAlfanumerica(char *pResultado) {
@@ -515,113 +517,4 @@ int utn_getAlfanumerica(char *pResultado, char *mensaje, char *mensajeError,
 	return ret;
 
 }
-
-static int esDni(char *cadena, int limite)
-
-{
-	int retorno = 1;
-	int i;
-	int flagPuntos = 0;
-
-	for (i = 0; cadena[i] != '\0'; i++) {
-
-		if (i != 0 && cadena[i] == '.') {
-
-			continue;
-			flagPuntos++;
-
-		}
-
-		if (cadena[i] < '0' || cadena[i] > '9' || flagPuntos > 3) {
-			retorno = 0;
-			break;
-		}
-	}
-
-	return retorno;
-}
-
-int utn_getDni(char *pResultado, char *mensaje, char *mensajeError, int minimo,
-		int maximo, int reintentos) {
-
-	int ret = -1;
-
-	if (pResultado != NULL && mensaje != NULL && mensajeError != NULL) {
-
-		char bufferString[maximo];
-
-		do {
-
-			printf("%s", mensaje);
-
-			if (myGets(bufferString, maximo) == 0
-				&& esDni(bufferString, maximo)
-			    && strlen(bufferString)>=minimo
-			    && strlen(bufferString)<=maximo) {
-
-				strncpy(pResultado, bufferString, maximo);
-				ret = 0;
-				break;
-			}
-
-			else {
-				printf("%s", mensajeError);
-				reintentos--;
-
-			}
-
-		} while (reintentos >= 0);
-
-	}
-	return ret;
-
-}
-
-static int esChar(char charRecibido)
-
-{
-    int retorno=1;
-    if((charRecibido<'A' || charRecibido>'Z') && (charRecibido<'a' || charRecibido>'z'))
-        retorno=0;
-    return retorno;
-}
-
-
-int utn_getChar(char *pResultado, char *mensaje, char *mensajeError, int minimo,
-		int maximo, int reintentos) {
-
-	int ret = -1;
-
-	if (pResultado != NULL && mensaje != NULL && mensajeError != NULL) {
-
-		char bufferString[maximo];
-
-		do {
-
-			printf("%s", mensaje);
-
-			if (myGets(bufferString, maximo) == 0
-				&& esChar(bufferString[0]))
-
-
-			{
-
-				*pResultado=bufferString[0];
-				ret = 0;
-				break;
-			}
-
-			else {
-				printf("%s", mensajeError);
-				reintentos--;
-
-			}
-
-		} while (reintentos >= 0);
-
-	}
-	return ret;
-
-}
-
 

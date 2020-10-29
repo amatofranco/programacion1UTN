@@ -3,7 +3,7 @@
 #ifndef CLIENTE_H_
 #define CLIENTE_H_
 
-#define QTY_CLIENTES 1000
+#define QTY_CLIENTES 100
 #define MIN_ID 1
 #define MAX_ID 1000
 #define MAX_NOMBRE 51
@@ -19,7 +19,19 @@ int id;
 int isEmpty;
 } typedef Cliente;
 
+// MEMORIA DINAMICA
+int cli_inicializarArrayPunteros(Cliente** array, int length);
 
+int cli_getEmptyIndex(Cliente **array, int length);
+
+int cli_alta(Cliente **array, int length, int *pId);
+
+
+
+Cliente* cli_new(void);
+
+
+//
 
 int cliente_imprimir(Cliente *employee);
 

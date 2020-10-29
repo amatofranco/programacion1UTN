@@ -64,4 +64,8 @@ int utn_getDni(char *pResultado, char *mensaje, char *mensajeError,int minimo, i
 int utn_getChar(char *pResultado, char *mensaje, char *mensajeError, int minimo,
 		int maximo, int reintentos);
 
+
+int utn_getTexto(char *pResultado, char *mensaje, char *mensajeError, int minimo,
+		int maximo, int reintentos);
+
 #endif /* UTN_INPUTS_H_ */

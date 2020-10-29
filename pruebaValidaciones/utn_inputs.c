@@ -581,7 +581,7 @@ static int esChar(char charRecibido)
 
 {
     int retorno=1;
-    if((charRecibido<'A' || charRecibido>'Z') && (charRecibido<'a' || charRecibido>'z'))
+    if(charRecibido<'A' || (charRecibido>'Z' && charRecibido<'a') || charRecibido>'z')
         retorno=0;
     return retorno;
 }
@@ -601,10 +601,7 @@ int utn_getChar(char *pResultado, char *mensaje, char *mensajeError, int minimo,
 			printf("%s", mensaje);
 
 			if (myGets(bufferString, maximo) == 0
-				&& esChar(bufferString[0]))
-
-
-			{
+				&& esChar(bufferString, maximo)) {
 
 				*pResultado=bufferString[0];
 				ret = 0;

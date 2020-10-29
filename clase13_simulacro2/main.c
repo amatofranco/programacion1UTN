@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "Cliente.h"
+
+#include "Mascota.h"
 #include "utn_inputs.h"
 
 /**
@@ -19,35 +20,37 @@ void mensajeExito();
  */
 void arrayVacio();
 
-
 /**
  * Imprime mensaje de array completo
  */
 
 void arrayCompleto();
 
+
 int main(void) {
 
-	Cliente arrayClientes[QTY_CLIENTES];
+	Mascota arrayMascotas[QTY_MASCOTAS];
 
 	int id = MIN_ID;
 	int opcion;
 	int ret;
 
-	if (cliente_iniciar(arrayClientes, QTY_CLIENTES) == 0) {
+	if (mascota_iniciar(arrayMascotas, QTY_MASCOTAS) == 0) {
 
 		printf("El programa se inició correctamente \n");
 	}
 
-	cliente_altaForzada(arrayClientes,QTY_CLIENTES,&id,"Juan Perez",200.5,"34567543");
+	mascota_altaForzada(arrayMascotas,QTY_MASCOTAS,&id,"Pichicho","m",10,2);
+
+
 
 	do {
 
 		ret = utn_getNumero(&opcion, "Seleccione una opción \n "
-				"1- Alta Cliente \n "
-				"2- Modificar Cliente \n "
-				"3- Baja Cliente \n "
-				"4- Imprimir Listado de Clientes \n "
+				"1- Alta Mascota \n "
+				"2- Modificar Mascota \n "
+				"3- Baja Mascota \n "
+				"4- Imprimir Listado de Mascota \n "
 				"5- Salir \n", "Opción no válida  \n", 1, 5, 2);
 
 		if (ret == 0) {
@@ -56,7 +59,7 @@ int main(void) {
 
 			case 1:
 
-					if (cliente_alta(arrayClientes, QTY_CLIENTES, &id) == 0) {
+					if (mascota_alta(arrayMascotas, QTY_MASCOTAS, &id) == 0) {
 						mensajeExito();
 					} else {
 						mensajeError();
@@ -66,7 +69,7 @@ int main(void) {
 
 			case 2:
 
-					if (cliente_modificar(arrayClientes, QTY_CLIENTES) == 0) {
+					if (mascota_modificar(arrayMascotas, QTY_MASCOTAS) == 0) {
 
 						mensajeExito();
 					}
@@ -81,7 +84,7 @@ int main(void) {
 			case 3:
 
 
-					if (cliente_baja(arrayClientes, QTY_CLIENTES) == 0) {
+					if (mascota_baja(arrayMascotas, QTY_MASCOTAS) == 0) {
 
 						mensajeExito();
 					}
@@ -94,8 +97,8 @@ int main(void) {
 
 			case 4:
 
-					if (cliente_ordenarPorNombreDni(arrayClientes, QTY_CLIENTES) == 0
-					 && cliente_imprimirArray(arrayClientes,QTY_CLIENTES) == 0) {//
+					if (mascota_ordenar(arrayMascotas, QTY_MASCOTAS) == 0
+					 && mascota_imprimirArray(arrayMascotas,QTY_MASCOTAS) == 0) {
 
 						mensajeExito();
 					}

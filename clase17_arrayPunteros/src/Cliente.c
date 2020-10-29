@@ -5,6 +5,116 @@
 #include "Cliente.h"
 #include "utn_inputs.h"
 
+//---------MEMORIA DINAMICA---------------
+
+int cli_inicializarArrayPunteros(Cliente **array, int length) {
+
+	int ret = -1;
+	if (array != NULL && length > 0) {
+		for (int i = 0; i < length; i++) {
+			array[i] = NULL;
+		}
+		ret = 0;
+	}
+
+	return ret;
+
+}
+
+Cliente* cli_new(void) {
+
+	Cliente *p;
+
+	p = (Cliente*) malloc(sizeof(Cliente) * 1);
+
+	if (p != NULL) {
+
+		p->altura = 0;
+		p->id = 0;
+		p->dni[0] = '\0';
+		p->nombre[0] = '\0';
+
+		return p;
+
+	}
+
+	else {
+
+		return NULL;
+	}
+
+}
+
+int cli_getEmptyIndex(Cliente **array, int length) {
+
+	int ret = -1;
+
+	if (array != NULL && length > 0) {
+
+		for (int i = 0; i < length; i++) {
+
+			if (array[i] == NULL) {
+
+				ret = i;
+				break;
+
+			}
+		}
+	}
+
+	return ret;
+}
+
+int cli_alta(Cliente **array, int length, int *pId) {
+
+	Cliente bufferCliente;
+
+	Cliente *pCliente;
+
+	int indice;
+
+	int ret = -1;
+
+	if (array != NULL && length > 0 && pId != NULL) {
+
+		if (utn_getNombre(bufferCliente.nombre, "Ingrese nombre \n",
+				"Nombre inválido \n", 2) == 0
+
+				&& utn_getFloat(&bufferCliente.altura,
+						"Ingrese altura en cm \n", "Número inválido \n", 0, 300,
+						2) == 0
+
+				&& utn_getDni(bufferCliente.dni,
+						"Ingrese número correspondiente al dni \n",
+						"Número inválido \n", 7, 8, 2) == 0) {
+
+			bufferCliente.id = *pId;
+
+			array[indice] = bufferCliente;
+
+			//MEMORIA DINAMICA
+
+			pCliente = cli_new();
+
+			if (pCliente != NULL) {
+
+				*pCliente = bufferCliente;
+
+				array[indice] = pCliente;
+
+				(*pId)++;
+
+				ret = 0;
+
+			}
+
+		}
+	}
+
+	return ret;
+}
+
+// ----------------------------------------
 
 /**
  * Imprime todos los datos del cliente
@@ -26,13 +136,12 @@ int cliente_imprimir(Cliente *pCliente) {
 	return ret;
 }
 
-
 /** \brief Imprime la lista de clientes con sus respectivos datos
-* \param list puntero a array de cliente
-* \param len largo del array
-* \return 0 Éxito -1 Error
-*
-*/
+ * \param list puntero a array de cliente
+ * \param len largo del array
+ * \return 0 Éxito -1 Error
+ *
+ */
 int cliente_imprimirArray(Cliente *array, int length) {
 
 	int ret = -1;
@@ -53,16 +162,14 @@ int cliente_imprimirArray(Cliente *array, int length) {
 	return ret;
 }
 
-
-
 /**
-* Para indicar que todas las posiciones del array están vacías,
-* pone la bandera (isEmpty) en TRUE en todas las posiciones
-* \param list puntero al array
-* \param len largo del array
-* \return 0 Éxito -1 Error
-*
-*/
+ * Para indicar que todas las posiciones del array están vacías,
+ * pone la bandera (isEmpty) en TRUE en todas las posiciones
+ * \param list puntero al array
+ * \param len largo del array
+ * \return 0 Éxito -1 Error
+ *
+ */
 
 int cliente_iniciar(Cliente *array, int length) {
 
@@ -78,8 +185,6 @@ int cliente_iniciar(Cliente *array, int length) {
 
 }
 
-
-
 /**
  * Busca un lugar vacio en el array y lo asigna a puntero indice
  * @param list Puntero al array
@@ -87,7 +192,7 @@ int cliente_iniciar(Cliente *array, int length) {
  * @param puntero indice
  * @return 0 Éxito -1 Error
  */
-int cliente_emptyIndex(Cliente *array, int length, int* indice) {
+int cliente_emptyIndex(Cliente *array, int length, int *indice) {
 
 	int ret = -1;
 
@@ -106,7 +211,6 @@ int cliente_emptyIndex(Cliente *array, int length, int* indice) {
 
 	return ret;
 }
-
 
 /**
  * Verifica si el array en su totalidad está vacio
@@ -132,8 +236,6 @@ int cliente_emptyArray(Cliente *list, int length) {
 	return ret;
 }
 
-
-
 /**
  * Agrega un cliente al array de clientes
  * @param list puntero a Array
@@ -155,40 +257,38 @@ int cliente_alta(Cliente *array, int length, int *pId) {
 
 	if (array != NULL && length > 0 && pId != NULL) {
 
-		if (cliente_emptyIndex(array, length, & indice)==-1){
+		if (cliente_emptyIndex(array, length, &indice) == -1) {
 
-
-			printf("%s",arrayCompleto);
+			printf("%s", arrayCompleto);
 
 		}
 
 		else if (utn_getNombre(bufferCliente.nombre, "Ingrese nombre \n",
-					"Nombre inválido \n", 2) == 0
+				"Nombre inválido \n", 2) == 0
 
-					&& utn_getFloat(&bufferCliente.altura,
-							"Ingrese altura en cm \n", "Número inválido \n", 0,
-							300, 2) == 0
+				&& utn_getFloat(&bufferCliente.altura,
+						"Ingrese altura en cm \n", "Número inválido \n", 0, 300,
+						2) == 0
 
-					&& utn_getDni(bufferCliente.dni,
-							"Ingrese número correspondiente al dni \n",
-							"Número inválido \n", 7, 8, 2) == 0) {
+				&& utn_getDni(bufferCliente.dni,
+						"Ingrese número correspondiente al dni \n",
+						"Número inválido \n", 7, 8, 2) == 0) {
 
-				bufferCliente.id = *pId;
+			bufferCliente.id = *pId;
 
-				bufferCliente.isEmpty = 0;
+			bufferCliente.isEmpty = 0;
 
-				array[indice] = bufferCliente;
+			array[indice] = bufferCliente;
 
-				(*pId)++;
+			(*pId)++;
 
-				ret = 0;
+			ret = 0;
 
-			}
 		}
+	}
 
 	return ret;
 }
-
 
 /**
  * Verifica si existe una posición ocupada del array
@@ -200,8 +300,7 @@ int cliente_alta(Cliente *array, int length, int *pId) {
  * @return posición del array
  */
 
-
-int cliente_buscarId(Cliente *array, int length, int id, int* indice) {
+int cliente_buscarId(Cliente *array, int length, int id, int *indice) {
 
 	int ret = -1;
 
@@ -226,8 +325,6 @@ int cliente_buscarId(Cliente *array, int length, int id, int* indice) {
 	return ret;
 }
 
-
-
 /**
  * Actualiza uno de los datos del cliente
  * verificando si existe su id
@@ -247,18 +344,19 @@ int cliente_modificar(Cliente *array, int length) {
 	float altura;
 	int id;
 
-	if(array!=NULL && length>0 &&
-	   utn_getNumero(&id, "Ingrese el Id a buscar \n",
-			"Número inválido \n", 0, 1000, 2) == 0) {
+	if (array != NULL && length > 0
+			&& utn_getNumero(&id, "Ingrese el Id a buscar \n",
+					"Número inválido \n", 0, 1000, 2) == 0) {
 
 		cliente_buscarId(array, QTY_CLIENTES, id, &indice);
 
-		if (indice != -1 && utn_getNumero(&opcion,
-			"Ingrese el número correspondiente a la opción: "
-			"\n 1-Modificar NOMBRE "
-			"\n 2-Modificar ALTURA "
-			"\n 3-Modificar DNI \n",
-			"Opción inválida \n", 1, 3, 2) == 0) {
+		if (indice != -1
+				&& utn_getNumero(&opcion,
+						"Ingrese el número correspondiente a la opción: "
+								"\n 1-Modificar NOMBRE "
+								"\n 2-Modificar ALTURA "
+								"\n 3-Modificar DNI \n", "Opción inválida \n",
+						1, 3, 2) == 0) {
 
 			switch (opcion) {
 
@@ -309,7 +407,6 @@ int cliente_modificar(Cliente *array, int length) {
 	return ret;
 }
 
-
 /**
  * Pide un empleado d a eliminar por id,
  * verifica que existe y pone bandera Is Empty en 1
@@ -332,15 +429,16 @@ int cliente_baja(Cliente *array, int length) {
 
 	char idError[] = "No existe el id seleccionado \n";
 
-	if (array!=NULL && length>0 &&
-		utn_getNumero(&id, "Ingrese el Id a buscar \n",
-		"Número inválido \n", MIN_ID, MAX_ID, 2) == 0) {
+	if (array != NULL && length > 0
+			&& utn_getNumero(&id, "Ingrese el Id a buscar \n",
+					"Número inválido \n", MIN_ID, MAX_ID, 2) == 0) {
 
-		cliente_buscarId(array, QTY_CLIENTES, id,&indice);
+		cliente_buscarId(array, QTY_CLIENTES, id, &indice);
 
-		if (indice != -1 && utn_getNumero(&option, "Seleccione: 1 para borrar - "
-			"2 para cancelar operación \n", "Opción inválida \n", 1,
-			2, 2) == 0 && option == 1) {
+		if (indice != -1
+				&& utn_getNumero(&option, "Seleccione: 1 para borrar - "
+						"2 para cancelar operación \n", "Opción inválida \n", 1,
+						2, 2) == 0 && option == 1) {
 
 			array[indice].isEmpty = 1;
 
@@ -361,15 +459,14 @@ int cliente_baja(Cliente *array, int length) {
 	return ret;
 }
 
-
 /**
-* Ordena los elementos del array
-* en base a nombre y dni de manera ascendente o descendente
-* @param array puntero a array
-* @param largo del array
-* @return 0 Éxito -1 Error
-*
-*/
+ * Ordena los elementos del array
+ * en base a nombre y dni de manera ascendente o descendente
+ * @param array puntero a array
+ * @param largo del array
+ * @return 0 Éxito -1 Error
+ *
+ */
 int cliente_ordenarPorNombreDni(Cliente *array, int length) {
 
 	int ret = -1;
@@ -392,9 +489,9 @@ int cliente_ordenarPorNombreDni(Cliente *array, int length) {
 				if (orden == 1) {
 
 					if (strncmp(array[i].nombre, array[i + 1].nombre,
-							MAX_NOMBRE) > 0
+					MAX_NOMBRE) > 0
 							|| (strncmp(array[i].nombre, array[i + 1].nombre,
-									MAX_NOMBRE) == 0
+							MAX_NOMBRE) == 0
 									&& array[i].altura > array[i + 1].altura)) {
 
 						flagSwap = 1;
@@ -408,9 +505,9 @@ int cliente_ordenarPorNombreDni(Cliente *array, int length) {
 				else if (orden == 2) {
 
 					if (strncmp(array[i].nombre, array[i + 1].nombre,
-							MAX_NOMBRE) < 0
+					MAX_NOMBRE) < 0
 							|| (strncmp(array[i].nombre, array[i + 1].nombre,
-									MAX_NOMBRE) == 0
+							MAX_NOMBRE) == 0
 									&& array[i].altura < array[i + 1].altura)) {
 
 						flagSwap = 1;
@@ -432,7 +529,6 @@ int cliente_ordenarPorNombreDni(Cliente *array, int length) {
 	return ret;
 }
 
-
 /**
  * Inserta un cliente en el array con los datos ya cargados
  * @param array Puntero al array
@@ -443,38 +539,35 @@ int cliente_ordenarPorNombreDni(Cliente *array, int length) {
  * @param dni Datos dni del cliente
  * @return 0 Éxito -1 Error
  */
-int cliente_altaForzada(Cliente* array, int length, int* pId, char* nombre, float altura, char* dni){
+int cliente_altaForzada(Cliente *array, int length, int *pId, char *nombre,
+		float altura, char *dni) {
 
 	Cliente bufferCliente;
 
-		int indice = -1;
+	int indice = -1;
 
-		int ret = -1;
+	int ret = -1;
 
-		if (array != NULL && length > 0 && pId != NULL &&nombre!=NULL) {
+	if (array != NULL && length > 0 && pId != NULL && nombre != NULL) {
 
+		cliente_emptyIndex(array, length, &indice);
 
-			       cliente_emptyIndex(array, length, &indice);
+		strncpy(bufferCliente.nombre, nombre, MAX_NOMBRE);
+		bufferCliente.altura = altura;
+		strncpy(bufferCliente.dni, dni, MAX_DNI);
 
-			       strncpy(bufferCliente.nombre, nombre, MAX_NOMBRE);
-			       bufferCliente.altura = altura;
-			       strncpy(bufferCliente.dni, dni, MAX_DNI);
+		bufferCliente.id = *pId;
 
+		bufferCliente.isEmpty = 0;
 
-					bufferCliente.id = *pId;
+		array[indice] = bufferCliente;
 
-					bufferCliente.isEmpty = 0;
+		(*pId)++;
 
-					array[indice] = bufferCliente;
+		ret = 0;
 
-					(*pId)++;
+	}
 
-					ret = 0;
-
-				}
-
-		return ret;
-
-
+	return ret;
 
 }

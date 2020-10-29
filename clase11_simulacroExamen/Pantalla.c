@@ -115,6 +115,7 @@ int pantalla_alta(Pantalla *array, int length, int indice, int *pId) {
 				   "Ingrese número correspondiente al tipo: 1 LED 2 LCD \n",
 				   "Número inválido \n", 1, 2, 2) == 0) {
 
+
 			bufferPantalla.id = *pId;
 
 			bufferPantalla.isEmpty = 0;
