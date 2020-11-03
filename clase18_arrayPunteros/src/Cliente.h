@@ -5,7 +5,7 @@
 
 #define QTY_CLIENTES 100
 #define MIN_ID 1
-#define MAX_ID 1000
+#define MAX_ID 10
 #define MAX_NOMBRE 51
 #define MIN_DNI 8
 #define MAX_DNI 10
@@ -20,9 +20,34 @@ int isEmpty;
 } typedef Cliente;
 
 // MEMORIA DINAMICA
-int cli_inicializarArrayPunteros(Cliente** array, int length);
+int cli_inicializarArrayPunteros(Cliente* array[], int length);
 
-int cli_getEmptyIndex(Cliente **array, int length);
+int cli_getEmptyIndex(Cliente* array[], int length);
+
+int cli_printArray(Cliente *array[], int length);
+
+Cliente* cli_new(void);
+
+Cliente* cli_newParametros(char* nombre,float altura, char* dni, int id);
+
+void cli_delete(Cliente* this);
+
+int cli_deleteIndex(Cliente* array[],int length,int index);
+
+int cli_setNombre(Cliente* this, char* nombre);
+
+int cli_getNombre(Cliente* this, char* nombre);
+
+int cli_setId (Cliente* this, int id);
+
+
+int cli_setIdTxt (Cliente* this, char* id);
+
+int cli_getIdTxt(Cliente *this, char *id);
+
+
+int cli_getById(Cliente *array[], int length, int id);
+
 
 int cli_alta(Cliente **array, int length, int *pId);
 

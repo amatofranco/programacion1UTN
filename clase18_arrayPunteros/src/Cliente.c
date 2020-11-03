@@ -5,9 +5,13 @@
 #include "Cliente.h"
 #include "utn_inputs.h"
 
+static int isValidName(char *string, int length);
+
+static int isValidNumber(char *string, int length);
+
 //---------MEMORIA DINAMICA---------------
 
-int cli_inicializarArrayPunteros(Cliente **array, int length) {
+int cli_inicializarArrayPunteros(Cliente *array[], int length) {
 
 	int ret = -1;
 	if (array != NULL && length > 0) {
@@ -21,35 +25,13 @@ int cli_inicializarArrayPunteros(Cliente **array, int length) {
 
 }
 
-Cliente* cli_new(void) {
-
-	Cliente *p;
-
-	p = (Cliente*) malloc(sizeof(Cliente) * 1);
-
-	if (p != NULL) {
-
-		p->altura = 0;
-		p->id = 0;
-		p->dni[0] = '\0';
-		p->nombre[0] = '\0';
-
-		return p;
-
-	}
-
-	else {
-
-		return NULL;
-	}
-
-}
-
-int cli_getEmptyIndex(Cliente **array, int length) {
+int cli_getEmptyIndex(Cliente *array[], int length) {
 
 	int ret = -1;
 
 	if (array != NULL && length > 0) {
+
+		ret = -2;
 
 		for (int i = 0; i < length; i++) {
 
@@ -65,48 +47,315 @@ int cli_getEmptyIndex(Cliente **array, int length) {
 	return ret;
 }
 
-int cli_alta(Cliente **array, int length, int *pId) {
+int cli_printArray(Cliente *array[], int length) {
+
+	int ret = -1;
+
+	if (array != NULL && length > 0) {
+
+		for (int i = 0; i < length; i++) {
+
+			if (array[i] != NULL) {
+
+				printf(
+						"Dirección memoria: %p, Nombre: %s, Altura: %f, Dni: %s, id: %d \n",
+						array[i], array[i]->nombre, array[i]->altura,
+						array[i]->dni, array[i]->id);
+
+			}
+		}
+	}
+
+	return ret;
+
+}
+
+Cliente* cli_new(void) {
+
+	Cliente *auxP = NULL;
+
+	auxP = (Cliente*) malloc(sizeof(Cliente) * 1);
+
+	return auxP;
+
+}
+
+Cliente* cli_newParametros(char *nombre, float altura, char *dni, int id) {
+
+	Cliente *auxP = NULL;
+
+	auxP = cli_new();
+
+	if (auxP != NULL) {
+
+		//CAMBIAR POR GETTERS Y SETTERS
+
+		strncpy(auxP->nombre, nombre, MAX_NOMBRE);
+
+		auxP->altura = altura;
+
+		strncpy(auxP->dni, dni, MAX_DNI);
+
+		auxP->id = id;
+
+	}
+
+	return auxP;
+
+}
+
+void cli_delete(Cliente *this) {
+
+	if (this != NULL) {
+
+		free(this);
+
+	}
+
+}
+
+int cli_deleteIndex(Cliente *array[], int length, int index) {
+
+	int ret = -1;
+
+	if (array != NULL && index >= 0 && array[index] != NULL) {
+
+		cli_delete(array[index]);
+
+		array[index] = NULL;
+
+		ret = 0;
+
+	}
+
+	return ret;
+
+}
+
+int cli_setNombre(Cliente *this, char *nombre) {
+
+	int ret = -1;
+
+	if (this != NULL && nombre != NULL) {
+
+		if (isValidName(nombre, MAX_NOMBRE)) {
+
+			strncpy(this->nombre, nombre, MAX_NOMBRE);
+
+		}
+
+	}
+
+	return ret;
+}
+
+int cli_getNombre(Cliente *this, char *nombre) {
+
+	int ret = -1;
+
+	if (this != NULL && nombre != NULL) {
+
+		strncpy(nombre, this->nombre, MAX_NOMBRE);
+
+	}
+
+	return ret;
+}
+
+int cli_setId(Cliente *this, int id) {
+
+	int ret = -1;
+
+	if (this != NULL && id >= 0) {
+
+		this->id = id;
+
+		ret = 0;
+
+	}
+
+	return ret;
+
+}
+
+int cli_getIdTxt(Cliente *this, char *id) {
+
+	int ret = -1;
+
+	if (this != NULL && id != NULL) {
+
+		sprintf(id,"%d",this->id);
+
+		ret = 0;
+	}
+
+	return ret;
+
+}
+
+int cli_setIdTxt(Cliente *this, char *id) {
+
+	int ret = -1;
+
+	if (this != NULL && id != NULL) {
+
+		if (isValidNumber(id, MAX_ID)) {
+
+			this->id = atoi(id);
+
+			ret = 0;
+
+		}
+
+	}
+
+	return ret;
+
+}
+
+static int isValidNumber(char *string, int length) {
+
+	int ret = 1;
+
+	if (string != NULL && length > 0) {
+
+		for (int i = 0; i < length && string[i] != '\0'; i++) {
+
+			if (i == 0 && (string[i] == '+' || string[i] == '-')) {
+
+				continue;
+			}
+
+			if (string[i] < '0' || string[i] > '9') {
+
+				ret = 0;
+
+				break;
+
+			}
+		}
+	}
+	return ret;
+
+}
+
+static int isValidName(char *string, int length) {
+
+	int ret = 1;
+	int flagSpace = 0;
+
+	if (string != NULL && length > 0) {
+
+		for (int i = 0; i < length && string[i] != '\0'; i++) {
+
+			if (i == 0 && string[i] >= 'A' && string[i] <= 'Z') {
+
+				continue;
+			}
+
+			if (i != 0 && string[i] == ' ' && flagSpace == 0) {
+
+				flagSpace = 1;
+
+				continue;
+			}
+
+			if (flagSpace == 1 && string[i] >= 'A' && string[i] < 'Z') {
+
+				flagSpace = 2;
+				continue;
+			}
+
+			if (string[i] < 'a' || string[i] > 'z') {
+
+				ret = 0;
+
+				break;
+
+			}
+
+		}
+	}
+
+	return ret;
+
+}
+
+int cli_getById(Cliente *array[], int length, int id) {
+
+	int ret = -1;
+
+	if (array != NULL && length > 0 && id >= 0) {
+
+		ret = -2;
+
+		for (int i = 0; i < length; i++) {
+
+			if (array[i] != NULL && id == array[i]->id) {
+
+				ret = i;
+				break;
+
+			}
+		}
+	}
+
+	return ret;
+}
+
+//---------------------------------------------
+int cli_alta(Cliente *array[], int length, int *pId) {
 
 	Cliente bufferCliente;
 
 	Cliente *pCliente;
 
-	int indice;
+	int index;
 
 	int ret = -1;
 
 	if (array != NULL && length > 0 && pId != NULL) {
 
-		if (utn_getNombre(bufferCliente.nombre, "Ingrese nombre \n",
-				"Nombre inválido \n", 2) == 0
+		index = cli_getEmptyIndex(array, length);
 
-				&& utn_getFloat(&bufferCliente.altura,
-						"Ingrese altura en cm \n", "Número inválido \n", 0, 300,
-						2) == 0
-
-				&& utn_getDni(bufferCliente.dni,
-						"Ingrese número correspondiente al dni \n",
-						"Número inválido \n", 7, 8, 2) == 0) {
-
-			bufferCliente.id = *pId;
-
-			array[indice] = bufferCliente;
-
-			//MEMORIA DINAMICA
+		if (index >= 0) {
 
 			pCliente = cli_new();
 
 			if (pCliente != NULL) {
 
-				*pCliente = bufferCliente;
+				if (utn_getNombre(bufferCliente.nombre, "Ingrese nombre \n",
+						"Nombre inválido \n", 2) == 0
 
-				array[indice] = pCliente;
+						&& utn_getFloat(&bufferCliente.altura,
+								"Ingrese altura en cm \n", "Número inválido \n",
+								0, 300, 2) == 0
 
-				(*pId)++;
+						&& utn_getDni(bufferCliente.dni,
+								"Ingrese número correspondiente al dni \n",
+								"Número inválido \n", 7, 8, 2) == 0) {
 
-				ret = 0;
+					bufferCliente.id = *pId;
+
+					//MEMORIA DINAMICA
+
+					*pCliente = bufferCliente;
+
+					array[index] = pCliente;
+
+					(*pId)++;
+
+					ret = 0;
+
+				}
 
 			}
+
+		}
+
+		else {
+
+			printf("Array completo");
 
 		}
 	}
