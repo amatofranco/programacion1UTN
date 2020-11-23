@@ -34,6 +34,7 @@
 #include "LinkedList.h"
 #include "Articulo.h"
 #include "Controller.h"
+#include "utn_inputs.h"
 
 int main(void) {
 		
@@ -49,15 +50,17 @@ int main(void) {
 					"/****************************************************/\n "
 							"Menu:\n"
 
-							"1. Cargar Lista Artículos desde archivo.\n"
+							"1. PEDIR AL USUARIO Cargar Lista Artículos desde archivo.\n"
 
 							"2. Ordenar Lista de Artículos en base a Articulo(descendente)\n"
 
 							"3. Imprimir Lista de Artículos\n"
 
 							"4. Aplicar descuentos:\n"
-							"CUIDADO DE ROPA: 20% (si el precio es mayor o igual a $120)\n"
-							"ELEMENTOS DE LIMPIEZA: 10% (si el monto es menor o igual a $200)\n"
+
+							"CUIDADO DE ROPA 20 si el precio es mayor o igual a $120\n"
+
+							"ELEMENTOS DE LIMPIEZA 10 si el monto es menor o igual a $200\n"
 
 							"5. Generar el archivo de salida: mapeado.csv\n"
 
@@ -77,7 +80,7 @@ int main(void) {
 					printf("El archivo ya se cargó anteriormente\n");
 				}
 
-				else if (controller_loadFromText("data.csv", listaArticulos)
+				else if (controller_loadFromText("datos.csv", listaArticulos)
 						== 0) {
 
 					printf("Operación exitosa\n");
