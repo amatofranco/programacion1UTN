@@ -79,6 +79,13 @@ static int esNombre(char *cadena, int limite);
 static int getNombre(char *pResultado);
 
 
+static int esArchivo(char *cadena, int limite);
+
+static int getArchivo(char *pResultado);
+
+
+
+
 static int myGets(char *cadena, int longitud) {
 
 	int ret = -1;
@@ -510,6 +517,83 @@ int utn_getAlfanumerica(char *pResultado, char *mensaje, char *mensajeError,
 	return ret;
 
 }
+
+
+static int esArchivo(char *cadena, int limite) {
+
+	int ret = 1;
+
+	if (cadena != NULL && limite > 0) {
+
+		for (int i = 0; i < limite && cadena[i] != '\0'; i++) {
+
+			if (cadena[i] == ' ' || cadena[i]=='.' || cadena[i]=='_' || cadena[i]=='"') {
+
+				continue;
+			}
+
+			if ((cadena[i] < '0' || cadena[i] > '9')
+					&& (cadena[i] < 'A' || cadena[i] > 'Z')
+					&& (cadena[i] < 'a' || cadena[i] > 'z')) {
+
+				ret = 0;
+				break;
+			}
+		}
+
+	}
+
+	return ret;
+
+}
+
+static int getArchivo(char *pResultado) {
+
+	int ret = -1;
+	char buffer[51];
+
+	if (pResultado != NULL) {
+
+		if (myGets(buffer, sizeof(buffer)) == 0
+				&& esArchivo(buffer, sizeof(buffer))) {
+
+			strncpy(pResultado, buffer, sizeof(buffer));
+			ret = 0;
+		}
+	}
+
+	return ret;
+}
+
+int utn_getArchivo(char *pResultado, char *mensaje, char *mensajeError,
+		int reintentos) {
+
+	int ret = -1;
+
+	char bufferString[51];
+
+	do {
+
+		printf("%s", mensaje);
+
+		if (getArchivo(bufferString) == 0) {
+
+			strncpy(pResultado, bufferString, sizeof(bufferString));
+			ret = 0;
+			break;
+		}
+
+		else {
+			printf("%s", mensajeError);
+			reintentos--;
+
+		}
+
+	} while (reintentos >= 0);
+	return ret;
+
+}
+
 
 static int esDni(char *cadena, int limite)
 

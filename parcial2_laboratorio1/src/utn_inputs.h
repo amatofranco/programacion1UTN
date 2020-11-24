@@ -54,4 +54,11 @@ int utn_getNegativo(int *pResultado, char *mensaje, char *mensajeError,
 int utn_getNombre(char *pResultado, char *mensaje, char *mensajeError,int reintentos);
 
 
+
+
+
+int utn_getArchivo(char *pResultado, char *mensaje, char *mensajeError,
+		int reintentos);
+
+
 #endif /* UTN_INPUTS_H_ */

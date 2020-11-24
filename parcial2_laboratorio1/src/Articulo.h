@@ -3,6 +3,7 @@
 
 #define MAX_ID 5000
 #define MAX_ARTICULO 51
+#define MAX_DESCRIPCION 51
 #define MAX_MEDIDA 51
 #define MAX_PRECIO 1000000
 
@@ -48,6 +49,9 @@ int articulo_print(eArticulo *this);
 
 int articulo_compareByRubroId(void *elementA, void *elementB);
 int articulo_compareByName(void *elementA, void *elementB);
+
+void articulo_setFinalPrice(void* Element);
+
 
 
 

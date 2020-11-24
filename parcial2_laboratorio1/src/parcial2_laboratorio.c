@@ -31,6 +31,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
 #include "LinkedList.h"
 #include "Articulo.h"
 #include "Controller.h"
@@ -50,17 +52,13 @@ int main(void) {
 					"/****************************************************/\n "
 							"Menu:\n"
 
-							"1. PEDIR AL USUARIO Cargar Lista Artículos desde archivo.\n"
+							"1. Cargar Lista Artículos desde archivo.\n"
 
-							"2. Ordenar Lista de Artículos en base a Articulo(descendente)\n"
+							"2. Ordenar Lista de Artículos en base a Articulo(ascendente)\n"
 
 							"3. Imprimir Lista de Artículos\n"
 
 							"4. Aplicar descuentos:\n"
-
-							"CUIDADO DE ROPA 20 si el precio es mayor o igual a $120\n"
-
-							"ELEMENTOS DE LIMPIEZA 10 si el monto es menor o igual a $200\n"
 
 							"5. Generar el archivo de salida: mapeado.csv\n"
 
@@ -77,13 +75,13 @@ int main(void) {
 
 				if (flagFile == 1) {
 
-					printf("El archivo ya se cargó anteriormente\n");
+					printf("El archivo ya se cargo anteriormente\n");
 				}
 
-				else if (controller_loadFromText("datos.csv", listaArticulos)
+				else if (controller_loadFromText(listaArticulos)
 						== 0) {
 
-					printf("Operación exitosa\n");
+					printf("Operacion exitosa\n");
 
 					flagFile = 1;
 				}
@@ -97,7 +95,7 @@ int main(void) {
 
 			case 2:
 
-				if (ll_len(listaArticulos) == 0) {
+				if (ll_isEmpty(listaArticulos)) {
 
 					printf(
 							"No existen artículos cargados para realizar la operación\n");
@@ -119,7 +117,7 @@ int main(void) {
 
 			case 3:
 
-				if (ll_len(listaArticulos) == 0) {
+				if (ll_isEmpty(listaArticulos)) {
 
 					printf(
 							"No existen artículos cargados para realizar la operación\n");
@@ -139,11 +137,27 @@ int main(void) {
 				break;
 
 			case 4:
+
+
+				if (ll_isEmpty(listaArticulos)) {
+					printf("No existen artículos cargados para realizar la operación\n");
+				}
+
+				else if(controller_setFinalPrice(listaArticulos)==0){
+
+					printf("Operacion exitosa\n");
+				}
+
+				else {
+
+					printf("Se produjo un error. Se redigirá al menú.\n");
+
+				}
 				break;
 
 			case 5:
 
-				if (ll_len(listaArticulos) == 0) {
+				if (ll_isEmpty(listaArticulos)) {
 					printf(
 							"No existen artículos cargados para realizar la operación\n");
 				}
@@ -154,7 +168,7 @@ int main(void) {
 					printf("Se guardaron %d artículos\n",
 							ll_len(listaArticulos));
 
-					printf("Operación exitosa");
+					printf("Operación exitosa\n");
 				}
 
 				else {

@@ -12,6 +12,9 @@ static int isValidName(char *string, int length);
 
 static int isAlphanumeric(char *string, int length);
 
+static int isValidText(char *string, int length);
+
+
 
 
 
@@ -29,10 +32,12 @@ static int isValidNumber(char *string, int length) {
 
 		for (int i = 0; i < length && string[i] != '\0'; i++) {
 
-			if (i == 0 && (string[i] == '+' || string[i] == '-')) {
+			if (string[i] == '.') {
 
 				continue;
 			}
+
+
 
 			if (string[i] < '0' || string[i] > '9') {
 
@@ -40,7 +45,9 @@ static int isValidNumber(char *string, int length) {
 
 				break;
 
+
 			}
+
 		}
 	}
 	return ret;
@@ -95,14 +102,12 @@ static int isAlphanumeric(char *string, int length) {
 
 		for (int i = 0; i < length && string[i] != '\0'; i++) {
 
-			if (i != 0 && string[i] == ' ') {
-
-				continue;
-			}
 
 			if ((string[i] < '0' || string[i] > '9')
 					&& (string[i] < 'A' || string[i] > 'Z')
 					&& (string[i] < 'a' || string[i] > 'z')) {
+
+				printf("%s pucha",&string[i]);
 
 				ret = 0;
 				break;
@@ -114,6 +119,35 @@ static int isAlphanumeric(char *string, int length) {
 	return ret;
 
 }
+
+static int isValidText(char *string, int length) {
+
+	int ret = 1;
+
+	if (string != NULL && length > 0) {
+
+		for (int i = 0; i < length && string[i] != '\0'; i++) {
+
+
+			if ((string[i] < 'A' || string[i] > 'Z')
+
+				&& (string[i] < 'a' || string[i] > 'z')) {
+
+				printf("%s pucha",&string[i]);
+
+				ret = 0;
+				break;
+			}
+		}
+
+	}
+
+	return ret;
+
+}
+
+
+
 
 /**
  * Guarda espacio en memoria correspondiente a un empleado
@@ -157,9 +191,10 @@ eArticulo* articulo_newParametrosTxt(char *idStr, char *articuloStr,
 				|| articulo_setArticulo(this, articuloStr) == -1
 				|| articulo_setMedida(this, medidaStr) == -1
 				|| articulo_setRubroIdTxt(this, rubroIdStr) == -1
-				|| articulo_setPrecioTxt(this, precioStr) == -1) {
+				|| articulo_setPrecioTxt(this, precioStr) == -1)
+				{
 
-			printf("Se borró id %s %s\n", idStr, articuloStr);
+			printf("No pudo agregarse: Art Id %s: %s\n", idStr, articuloStr);
 
 			articulo_delete(this);
 
@@ -321,13 +356,12 @@ int articulo_setArticulo(eArticulo *this, char *articulo) {
 
 	if (this != NULL && articulo != NULL) {
 
-		if (isValidName(articulo, MAX_ARTICULO)) {//VALIDAR TEXTO
+		//if(isValidText(articulo, MAX_ARTICULO)) {//VALIDAR TEXTO
 
 			strncpy(this->articulo, articulo, MAX_ARTICULO);
 
 			ret = 0;
 
-		}
 
 	}
 
@@ -372,7 +406,9 @@ int articulo_setMedida(eArticulo *this, char *medida) {
 
 	if (this != NULL && medida !=NULL) {
 
-		if (isAlphanumeric(medida, MAX_MEDIDA)) {//VALIDAR TEXTO
+		/*if (isAlphanumeric(medida, MAX_MEDIDA)) {//VALIDAR TEXTO
+		 * */
+
 
 					strncpy(this->medida, medida, MAX_MEDIDA);
 
@@ -380,7 +416,7 @@ int articulo_setMedida(eArticulo *this, char *medida) {
 
 				}
 
-	}
+
 
 	return ret;
 }
@@ -507,14 +543,16 @@ int articulo_setRubroIdTxt(eArticulo *this, char *rubroId) {
 
 	if (this != NULL && rubroId != NULL) {
 
-		if (isValidNumber(rubroId, MAX_PRECIO)) {
+		if (isValidNumber(rubroId, 4)) {
 
 			rubroIdAux = atoi(rubroId);
 
 			this->rubroId = rubroIdAux;
 
 			ret = 0;
-		}
+
+
+	}
 
 	}
 
@@ -563,6 +601,8 @@ int articulo_print(eArticulo *this) {
 
 	char medida[MAX_MEDIDA];
 
+	char descripcionRubro[MAX_DESCRIPCION];
+
 	int rubroId;
 
 	float precio;
@@ -580,9 +620,33 @@ int articulo_print(eArticulo *this) {
 	articulo_getPrecio(this, &precio) == 0)
 
 	{
+		switch(rubroId){
 
-		printf("%10d | %20s  | %20s | %20.2f | %20d |\n", id,
-				articulo, medida, precio, rubroId);
+		case 1:
+
+			strncpy(descripcionRubro,"Cuidado de Ropa",MAX_DESCRIPCION);
+			break;
+
+		case 2:
+
+            strncpy(descripcionRubro,"Limpieza y Desinfeccion",MAX_DESCRIPCION);
+			break;
+
+		case 3:
+
+		    strncpy(descripcionRubro,"Cuidado Personal e Higiene",MAX_DESCRIPCION);
+			break;
+
+		case 4:
+
+			strncpy(descripcionRubro,"Cuidado del Automotor",MAX_DESCRIPCION);
+			break;
+
+
+		}
+
+		printf("%10d | %40s  | %10s | %10.2f | %10s\n", id,
+				articulo, medida, precio, descripcionRubro);
 
 	}
 
@@ -653,3 +717,47 @@ int articulo_compareByName(void *elementA, void *elementB) {
 	}
 	return ret;
 }
+
+void articulo_setFinalPrice(void* Element){
+
+	int rubroIdAux;
+	float precioAux;
+	int idAux;
+	char articuloAux[51];
+	int flagArt = 0;
+	eArticulo* this = (eArticulo*) Element;
+
+
+	if(this!=NULL){
+
+		if(articulo_getRubroId(this,&rubroIdAux)==0 && articulo_getPrecio(this,&precioAux)==0){
+
+			if(rubroIdAux==1 && precioAux>=120){
+
+				flagArt = 1;
+
+				articulo_setPrecio(this,precioAux*0.8);
+
+
+			}
+
+			else if(rubroIdAux==2 && precioAux<=200){
+
+				flagArt = 1;
+
+				articulo_setPrecio(this,precioAux*0.9);
+
+			}
+
+			if(flagArt){
+
+			articulo_getId(this,&idAux);
+
+			articulo_getArticulo(this,articuloAux);
+
+			printf("Se modificó Art. Id %d: %s\n",idAux,articuloAux);
+			}
+		}
+	}
+}
+

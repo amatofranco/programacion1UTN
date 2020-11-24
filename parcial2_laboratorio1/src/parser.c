@@ -26,12 +26,12 @@ int parser_ArticuloFromText(FILE *pFile, LinkedList *pArticuloList) {
 
 	if (pFile != NULL && pArticuloList != NULL) {
 
-		fscanf(pFile, "%[^,],%[^,],%[^,],%[^,],%[^\n]\n", idAux, articuloAux, medidaAux,
+		fscanf(pFile, "%[^,],%[^,],%[^,],%[^,],%[^\r]\n", idAux, articuloAux, medidaAux,
 				precioAux, rubroIdAux); // lectura fantasma
 
 		do {
 
-			if (fscanf(pFile, "%[^,],%[^,],%[^,],%[^,],%[^\n]\n", idAux, articuloAux, medidaAux,
+			if (fscanf(pFile, "%[^,],%[^,],%[^,],%[^,],%[^\r]\n", idAux, articuloAux, medidaAux,
 					precioAux, rubroIdAux) == 5) // cant. de variables
 
 					{
