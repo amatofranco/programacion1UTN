@@ -3,15 +3,27 @@
 #include <string.h>
 #include "LinkedList.h"
 
+
+/** \brief  Obtiene un nodo de la lista
+ * \param this LinkedList* Puntero a la lista
+ * \param index int Indice del nodo a obtener
+ * \return Node* Retorna  (NULL) Error: si el puntero a la lista es NULL o (si el indice es menor a 0 o mayor al len de la lista)
+ (pNode) Si funciono correctamente
+ *
+ */
 static Node* getNode(LinkedList *this, int nodeIndex);
+
+/** \brief Agrega y enlaza un nuevo nodo a la lista
+ * \param this LinkedList* Puntero a la lista
+ * \param nodeIndex int Ubicacion donde se agregara el nuevo nodo
+ * \param pElement void* Puntero al elemento a ser contenido por el nuevo nodo
+ * \return int Retorna  (-1) Error: si el puntero a la lista es NULL o (si el indice es menor a 0 o mayor al len de la lista)
+ ( 0) Si funciono correctamente
+ *
+ */
 static int addNode(LinkedList *this, int nodeIndex, void *pElement);
 
-/** \brief Crea un nuevo LinkedList en memoria de manera dinamica
- *
- *  \param void
- *  \return LinkedList* Retorna (NULL) en el caso de no conseguir espacio en memoria
- *                      o el puntero al espacio reservado
- */
+
 LinkedList* ll_newLinkedList(void) {
 
 	LinkedList *this = NULL;
@@ -27,12 +39,7 @@ LinkedList* ll_newLinkedList(void) {
 	return this;
 }
 
-/** \brief Retorna la cantidad de elementos de la lista
- *
- * \param this LinkedList* Puntero a la lista
- * \return int Retorna (-1) si el puntero es NULL o la cantidad de elementos de la lista
- *
- */
+
 int ll_len(LinkedList *this) {
 	int returnAux = -1;
 
@@ -44,14 +51,7 @@ int ll_len(LinkedList *this) {
 	return returnAux;
 }
 
-/** \brief  Obtiene un nodo de la lista
- *
- * \param this LinkedList* Puntero a la lista
- * \param index int Indice del nodo a obtener
- * \return Node* Retorna  (NULL) Error: si el puntero a la lista es NULL o (si el indice es menor a 0 o mayor al len de la lista)
- (pNode) Si funciono correctamente
- *
- */
+
 static Node* getNode(LinkedList *this, int nodeIndex) {
 
 	if (this != NULL && nodeIndex >= 0 && nodeIndex < ll_len(this)) {
@@ -74,28 +74,13 @@ static Node* getNode(LinkedList *this, int nodeIndex) {
 		return NULL;
 	}
 }
-/** \brief  Permite realizar el test de la funcion getNode la cual es privada
- *
- * \param this LinkedList* Puntero a la lista
- * \param index int Indice del nodo a obtener
- * \return Node* Retorna  (NULL) Error: si el puntero a la lista es NULL o (si el indice es menor a 0 o mayor al len de la lista)
- (pElement) Si funciono correctamente
- *
- */
+
 Node* test_getNode(LinkedList *this, int nodeIndex) {
 
 	return getNode(this, nodeIndex);
 }
 
-/** \brief Agrega y enlaza un nuevo nodo a la lista
- *
- * \param this LinkedList* Puntero a la lista
- * \param nodeIndex int Ubicacion donde se agregara el nuevo nodo
- * \param pElement void* Puntero al elemento a ser contenido por el nuevo nodo
- * \return int Retorna  (-1) Error: si el puntero a la lista es NULL o (si el indice es menor a 0 o mayor al len de la lista)
- ( 0) Si funciono correctamente
- *
- */
+
 static int addNode(LinkedList *this, int nodeIndex, void *pElement) {
 	int returnAux = -1;
 
@@ -138,26 +123,12 @@ static int addNode(LinkedList *this, int nodeIndex, void *pElement) {
 	return returnAux;
 }
 
-/** \brief Permite realizar el test de la funcion addNode la cual es privada
- *
- * \param this LinkedList* Puntero a la lista
- * \param nodeIndex int Ubicacion donde se agregara el nuevo nodo
- * \param pElement void* Puntero al elemento a ser contenido por el nuevo nodo
- * \return int Retorna  (-1) Error: si el puntero a la lista es NULL o (si el indice es menor a 0 o mayor al len de la lista)
- ( 0) Si funciono correctamente
- *
- */
+
 int test_addNode(LinkedList *this, int nodeIndex, void *pElement) {
 	return addNode(this, nodeIndex, pElement);
 }
 
-/** \brief  Agrega un elemento a la lista
- * \param pList LinkedList* Puntero a la lista
- * \param pElement void* Puntero al elemento a ser agregado
- * \return int Retorna  (-1) Error: si el puntero a la lista es NULL
- ( 0) Si funciono correctamente
- *
- */
+
 int ll_add(LinkedList *this, void *pElement) { //A diferencia de addNode, solo agrega al final (no se elige index)
 	int returnAux = -1;
 
@@ -173,14 +144,7 @@ int ll_add(LinkedList *this, void *pElement) { //A diferencia de addNode, solo a
 	return returnAux;
 }
 
-/** \brief Permite realizar el test de la funcion addNode la cual es privada
- *
- * \param this LinkedList* Puntero a la lista
- * \param nodeIndex int Ubicacion del elemento a obtener
- * \return void* Retorna    (NULL) Error: si el puntero a la lista es NULL o (si el indice es menor a 0 o mayor al len de la lista)
- (pElement) Si funciono correctamente
- *
- */
+
 void* ll_get(LinkedList *this, int index) {
 	void *returnAux = NULL;
 
@@ -655,15 +619,3 @@ LinkedList* ll_filter(LinkedList *this, int (*pFunc)(void *pElement)) {
 	return filteredList;
 
 }
-
-/* Ejemplo de funcion para usar en map
- *
- void calcularPrecioFinal(Producto* p){
-
- if(p!=NULL){
-
- p.setPrecioFinal = p.GetPrecioUnitario * p.GetCantidad;
-
- }
- }
- */

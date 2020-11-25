@@ -39,148 +39,189 @@
 #include "utn_inputs.h"
 
 int main(void) {
-		
-		LinkedList *listaArticulos = ll_newLinkedList();
 
-		int option = 0;
+	LinkedList *listaArticulos = ll_newLinkedList();
 
-		int flagFile = 0;
+	int option = 0;
 
-		do {
+	int flagFile = 0;
 
-			printf(
-					"/****************************************************/\n "
-							"Menu:\n"
+	int flagMap = 0;
 
-							"1. Cargar Lista Artículos desde archivo.\n"
+	do {
 
-							"2. Ordenar Lista de Artículos en base a Articulo(ascendente)\n"
+		printf("/****************************************************/\n "
+				"Menu:\n"
 
-							"3. Imprimir Lista de Artículos\n"
+				"1. Cargar Lista Artículos desde archivo.\n"
 
-							"4. Aplicar descuentos:\n"
+				"2. Ordenar Lista de Artículos en base a Articulo(ascendente)\n"
 
-							"5. Generar el archivo de salida: mapeado.csv\n"
+				"3. Imprimir Lista de Artículos\n"
 
-							"6. Salir\n"
-							"/*****************************************************/\n"
+				"4. Aplicar descuentos\n"
 
-							"");
+				"5. Generar el archivo de salida: mapeado.csv\n"
 
-			utn_getNumero(&option, "Ingrese opcion\n", "Opcion Inválida\n", 1,
-					6, 2);
+				"6. Filtrar articulos con precio mayor a 200\n"
 
-			switch (option) {
-			case 1:
+				"7. Contar articulos Rubro 1\n"
 
-				if (flagFile == 1) {
+				"8. Salir\n"
+				"/*****************************************************/\n"
 
-					printf("El archivo ya se cargo anteriormente\n");
-				}
+				"");
 
-				else if (controller_loadFromText(listaArticulos)
-						== 0) {
+		utn_getNumero(&option, "Ingrese opcion\n", "Opcion Inválida\n", 1, 8,
+				2);
 
-					printf("Operacion exitosa\n");
+		switch (option) {
+		case 1:
 
-					flagFile = 1;
-				}
+			if (flagFile == 1) {
 
-				else {
-					printf("Se produjo un error. Se redigirá al menú.\n");
+				printf("El archivo ya se cargo anteriormente\n");
+			}
 
-				}
+			else if (controller_loadFromText(listaArticulos) == 0) {
 
-				break;
+				printf("Operacion exitosa\n");
 
-			case 2:
+				flagFile = 1;
+			}
 
-				if (ll_isEmpty(listaArticulos)) {
-
-					printf(
-							"No existen artículos cargados para realizar la operación\n");
-
-				}
-
-				else if (controller_sortArticulo(listaArticulos) == 0) {
-
-					printf("Operación exitosa\n");
-				}
-
-				else {
-
-					printf("Se produjo un error. Se redigirá al menú.\n");
-
-				}
-
-				break;
-
-			case 3:
-
-				if (ll_isEmpty(listaArticulos)) {
-
-					printf(
-							"No existen artículos cargados para realizar la operación\n");
-
-				}
-
-				else if (controller_ListArticulo(listaArticulos) == 0) {
-
-					printf("Operación exitosa\n");
-				}
-
-				else {
-
-					printf("Se produjo un error. Se redigirá al menú.\n");
-
-				}
-				break;
-
-			case 4:
-
-
-				if (ll_isEmpty(listaArticulos)) {
-					printf("No existen artículos cargados para realizar la operación\n");
-				}
-
-				else if(controller_setFinalPrice(listaArticulos)==0){
-
-					printf("Operacion exitosa\n");
-				}
-
-				else {
-
-					printf("Se produjo un error. Se redigirá al menú.\n");
-
-				}
-				break;
-
-			case 5:
-
-				if (ll_isEmpty(listaArticulos)) {
-					printf(
-							"No existen artículos cargados para realizar la operación\n");
-				}
-
-				else if (controller_saveAsText("mapeado.csv", listaArticulos)
-						== 0) {
-
-					printf("Se guardaron %d artículos\n",
-							ll_len(listaArticulos));
-
-					printf("Operación exitosa\n");
-				}
-
-				else {
-
-					printf("Se produjo un error. Se redigirá al menú.\n");
-
-				}
-				break;
+			else {
+				printf(
+						"No pudo completarse la operación. Se redigirá al menú.\n");
 
 			}
-		} while (option != 6);
 
+			break;
+
+		case 2:
+
+			if (ll_isEmpty(listaArticulos)) {
+
+				printf(
+						"No existen artículos cargados para realizar la operación\n");
+
+			}
+
+			else if (controller_sortArticulo(listaArticulos) == 0) {
+
+				printf("Operación exitosa\n");
+			}
+
+			else {
+
+				printf("Se produjo un error. Se redigirá al menú.\n");
+
+			}
+
+			break;
+
+		case 3:
+
+			if (ll_isEmpty(listaArticulos)) {
+
+				printf(
+						"No existen artículos cargados para realizar la operación\n");
+
+			}
+
+			else if (controller_ListArticulo(listaArticulos) == 0) {
+
+				printf("Operación exitosa\n");
+			}
+
+			else {
+
+				printf("Se produjo un error. Se redigirá al menú.\n");
+
+			}
+			break;
+
+		case 4:
+
+			if (ll_isEmpty(listaArticulos)) {
+				printf(
+						"No existen artículos cargados para realizar la operación\n");
+			}
+
+			else if (controller_setFinalPrice(listaArticulos) == 0) {
+
+				flagMap = 1;
+
+				printf("Operacion exitosa\n");
+			}
+
+			else {
+
+				printf("Se produjo un error. Se redigirá al menú.\n");
+
+			}
+			break;
+
+		case 5:
+
+			if (ll_isEmpty(listaArticulos)) {
+				printf(
+						"No existen artículos cargados para realizar la operación\n");
+			}
+
+			else if (!flagMap) {
+				printf(
+						"No se han aplicado los descuentos para realizar el archivo de salida.\n");
+
+			}
+
+			else if (controller_saveAsText("mapeado.csv", listaArticulos)
+					== 0) {
+
+				printf("Se exportaron %d artículos\n", ll_len(listaArticulos));
+
+				printf("Operación exitosa\n");
+			}
+
+			else {
+
+				printf("Se produjo un error. Se redigirá al menú.\n");
+
+			}
+			break;
+
+		case 6:
+
+			if (ll_isEmpty(listaArticulos)) {
+				printf("No existen artículos cargados para realizar la operación\n");
+			}
+
+			else if (controller_filterByPrice(listaArticulos) == 0) {
+
+				printf("Operación exitosa\n");
+
+			}
+			break;
+
+		case 7:
+
+			if (ll_isEmpty(listaArticulos)) {
+				printf("No existen artículos cargados para realizar la operación\n");
+			}
+
+			else if (controller_countByRubro(listaArticulos) == 0) {
+
+				printf("Operación exitosa\n");
+
+			}
+			break;
+
+		case 8:
+
+			printf("Saliendo del programa");
+
+		}
+	} while (option != 8);
 
 	return EXIT_SUCCESS;
 }

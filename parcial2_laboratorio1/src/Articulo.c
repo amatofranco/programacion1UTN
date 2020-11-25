@@ -4,26 +4,22 @@
 #include <stdlib.h>
 #include <string.h>
 
-
-
-static int isValidNumber(char *string, int length);
-
-static int isValidName(char *string, int length);
-
-static int isAlphanumeric(char *string, int length);
-
-static int isValidText(char *string, int length);
-
-
-
-
-
 /**
  * Valida que la cadena recibida sea un número
  * @param string Cadena a analizar
  * @param length largo de la cadena
  * @return 0 Éxito -1 Error
  */
+static int isValidNumber(char *string, int length);
+
+/**
+ * Valida que la cadena recibida sean números o letras
+ * @param string Cadena a validar
+ * @param length Largo de la cadena
+ * @return 0 Éxito -1 Error
+ */
+static int isAlphanumeric(char *string, int length);
+
 static int isValidNumber(char *string, int length) {
 
 	int ret = 1;
@@ -37,59 +33,16 @@ static int isValidNumber(char *string, int length) {
 				continue;
 			}
 
-
-
 			if (string[i] < '0' || string[i] > '9') {
 
 				ret = 0;
 
 				break;
 
-
 			}
 
 		}
 	}
-	return ret;
-
-}
-
-
-/**
- * Valida que la cadena ingresada sea un nombre
- * @param string Cadena a analizar
- * @param length Largo de la cadena
- * @return 0 Éxito -1 Error
- */
-static int isValidName(char *string, int length) {
-
-	int ret = 1;
-
-	if (string != NULL && length > 0) {
-
-		for (int i = 0; i < length && string[i] != '\0'; i++) {
-
-			if (i == 0 && string[i] >= 'A' && string[i] <= 'Z') {
-
-				continue;
-			}
-
-			if (i != 0 && (string[i] == '-' || string[i] == ' ')) {
-
-				continue;
-			}
-
-			if (string[i] < 'a' || string[i] > 'z') {
-
-				ret = 0;
-
-				break;
-
-			}
-
-		}
-	}
-
 	return ret;
 
 }
@@ -102,13 +55,15 @@ static int isAlphanumeric(char *string, int length) {
 
 		for (int i = 0; i < length && string[i] != '\0'; i++) {
 
+			if (i != 0 && string[i] == ' ') {
+
+				continue;
+			}
 
 			if ((string[i] < '0' || string[i] > '9')
 					&& (string[i] < 'A' || string[i] > 'Z')
 					&& (string[i] < 'a' || string[i] > 'z')) {
 
-				printf("%s pucha",&string[i]);
-
 				ret = 0;
 				break;
 			}
@@ -119,42 +74,6 @@ static int isAlphanumeric(char *string, int length) {
 	return ret;
 
 }
-
-static int isValidText(char *string, int length) {
-
-	int ret = 1;
-
-	if (string != NULL && length > 0) {
-
-		for (int i = 0; i < length && string[i] != '\0'; i++) {
-
-
-			if ((string[i] < 'A' || string[i] > 'Z')
-
-				&& (string[i] < 'a' || string[i] > 'z')) {
-
-				printf("%s pucha",&string[i]);
-
-				ret = 0;
-				break;
-			}
-		}
-
-	}
-
-	return ret;
-
-}
-
-
-
-
-/**
- * Guarda espacio en memoria correspondiente a un empleado
- * y lo asigna a un puntero
- * @return Puntero al empleado
- */
-
 
 eArticulo* articulo_new(void) {
 
@@ -165,17 +84,6 @@ eArticulo* articulo_new(void) {
 	return auxP;
 
 }
-
-/**
- *
- * Escribe los parámetros de un Artículo, recibidos por texto
- * @param idStr Id de Artículo
- * @param articulo Nombre de Artículo
- * @param medidaStr Medida del articulo
- * @param rubroIdStr Id del rubro del Articulo
- * @return
- */
-
 
 eArticulo* articulo_newParametrosTxt(char *idStr, char *articuloStr,
 		char *medidaStr, char *precioStr, char *rubroIdStr) {
@@ -191,8 +99,7 @@ eArticulo* articulo_newParametrosTxt(char *idStr, char *articuloStr,
 				|| articulo_setArticulo(this, articuloStr) == -1
 				|| articulo_setMedida(this, medidaStr) == -1
 				|| articulo_setRubroIdTxt(this, rubroIdStr) == -1
-				|| articulo_setPrecioTxt(this, precioStr) == -1)
-				{
+				|| articulo_setPrecioTxt(this, precioStr) == -1) {
 
 			printf("No pudo agregarse: Art Id %s: %s\n", idStr, articuloStr);
 
@@ -207,18 +114,8 @@ eArticulo* articulo_newParametrosTxt(char *idStr, char *articuloStr,
 	return this;
 }
 
-/**
- *
- * Escribe los parámetros de un empleado
- * @param id Id de empleado
- * @param nombre Nombre de empleado
- * @param horasTrabajadas Horas trabajadas del empleado
- * @param sueldo Sueldo del empleado
- * @return
- */
-
-eArticulo* articulo_newParametros(int id, char *articulo, char *medida, float precio,
-		int rubroId) {
+eArticulo* articulo_newParametros(int id, char *articulo, char *medida,
+		float precio, int rubroId) {
 
 	eArticulo *this = NULL;
 
@@ -230,7 +127,7 @@ eArticulo* articulo_newParametros(int id, char *articulo, char *medida, float pr
 				|| articulo_setArticulo(this, articulo) == -1
 				|| articulo_setMedida(this, medida) == -1
 				|| articulo_setRubroId(this, rubroId) == -1
-			    || articulo_setPrecio(this, precio) == -1)  {
+				|| articulo_setPrecio(this, precio) == -1) {
 
 			articulo_delete(this);
 
@@ -242,12 +139,6 @@ eArticulo* articulo_newParametros(int id, char *articulo, char *medida, float pr
 
 	return this;
 }
-
-/**
- * Libera el espacio en memoria correspondiente al empleado
- * @param this Puntero a espacio en memoria a liberar
- * @return 0 Éxito -1 Error
- */
 
 int articulo_delete(eArticulo *this) {
 
@@ -265,13 +156,6 @@ int articulo_delete(eArticulo *this) {
 
 }
 
-/**
- * Asigna ID a un empleado
- * @param this Puntero a empleado
- * @param id Id a asignar
- * @return 0 Éxito -1 Error
- */
-
 int articulo_setId(eArticulo *this, int id) {
 
 	int ret = -1;
@@ -287,15 +171,6 @@ int articulo_setId(eArticulo *this, int id) {
 	return ret;
 
 }
-
-
-/**
- * Asigna ID a un empleado, recibido por texto
- * @param this Puntero a empleado
- * @param id Id a asignar
- * @return 0 Éxito -1 Error
- */
-
 
 int articulo_setIdTxt(eArticulo *this, char *id) {
 
@@ -317,15 +192,6 @@ int articulo_setIdTxt(eArticulo *this, char *id) {
 
 }
 
-
-/**
- * Obtiene id de un empleado
- * @param this Puntero a empleado
- * @param id Puntero a resultado obtenido
- * @return 0 Éxito -1 Error
- */
-
-
 int articulo_getId(eArticulo *this, int *id) {
 
 	int ret = -1;
@@ -341,40 +207,20 @@ int articulo_getId(eArticulo *this, int *id) {
 	return ret;
 }
 
-
-/**
- * Asigna nombre a un empleado
- * @param this Puntero a empleado
- * @param id Nombre a asignar
- * @return 0 Éxito -1 Error
- */
-
-
 int articulo_setArticulo(eArticulo *this, char *articulo) {
 
 	int ret = -1;
 
 	if (this != NULL && articulo != NULL) {
 
-		//if(isValidText(articulo, MAX_ARTICULO)) {//VALIDAR TEXTO
+		strncpy(this->articulo, articulo, MAX_ARTICULO);
 
-			strncpy(this->articulo, articulo, MAX_ARTICULO);
-
-			ret = 0;
-
+		ret = 0;
 
 	}
 
 	return ret;
 }
-
-/**
- * Obtiene nombre de un empleado
- * @param this Puntero a empleado
- * @param nombre Puntero a resultado obtenido
- * @return 0 Éxito -1 Error
- */
-
 
 int articulo_getArticulo(eArticulo *this, char *articulo) {
 
@@ -391,46 +237,24 @@ int articulo_getArticulo(eArticulo *this, char *articulo) {
 	return ret;
 }
 
-/**
- * Asigna horas trabajadas a un empleado
- * @param this Puntero a empleado
- * @param horasTrabajadas horas trabajadas a asignar
- * @return 0 Éxito -1 Error
- */
-
-
-
 int articulo_setMedida(eArticulo *this, char *medida) {
 
 	int ret = -1;
 
-	if (this != NULL && medida !=NULL) {
+	if (this != NULL && medida != NULL) {
 
-		/*if (isAlphanumeric(medida, MAX_MEDIDA)) {//VALIDAR TEXTO
-		 * */
+		if (isAlphanumeric(medida, MAX_MEDIDA)) {
 
+			strncpy(this->medida, medida, MAX_MEDIDA);
 
-					strncpy(this->medida, medida, MAX_MEDIDA);
+			ret = 0;
 
-					ret = 0;
+		}
 
-				}
-
-
+	}
 
 	return ret;
 }
-
-
-
-
-/**
- * Obtiene horas trabajadas de un empleado
- * @param this Puntero a empleado
- * @param horasTrabajadas Puntero a resultado obtenido
- * @return 0 Éxito -1 Error
- */
-
 
 int articulo_getMedida(eArticulo *this, char *medida) {
 
@@ -447,15 +271,6 @@ int articulo_getMedida(eArticulo *this, char *medida) {
 	return ret;
 }
 
-
-/**
- * Asigna sueldo a un empleado
- * @param this Puntero a empleado
- * @param sueldo sueldo a asignar
- * @return 0 Éxito -1 Error
- */
-
-
 int articulo_setPrecio(eArticulo *this, float precio) {
 
 	int ret = -1;
@@ -470,7 +285,6 @@ int articulo_setPrecio(eArticulo *this, float precio) {
 
 	return ret;
 }
-
 
 int articulo_setPrecioTxt(eArticulo *this, char *precio) {
 
@@ -494,7 +308,6 @@ int articulo_setPrecioTxt(eArticulo *this, char *precio) {
 	return ret;
 }
 
-
 int articulo_getPrecio(eArticulo *this, float *precio) {
 
 	int ret = -1;
@@ -510,8 +323,6 @@ int articulo_getPrecio(eArticulo *this, float *precio) {
 	return ret;
 }
 
-
-
 int articulo_setRubroId(eArticulo *this, int rubroId) {
 
 	int ret = -1;
@@ -525,15 +336,6 @@ int articulo_setRubroId(eArticulo *this, int rubroId) {
 
 	return ret;
 }
-
-/**
- * Asigna sueldo a un empleado, recibido desde texto
- * @param this Puntero a empleado
- * @param sueldo sueldo a asignar
- * @return 0 Éxito -1 Error
- */
-
-
 
 int articulo_setRubroIdTxt(eArticulo *this, char *rubroId) {
 
@@ -551,22 +353,12 @@ int articulo_setRubroIdTxt(eArticulo *this, char *rubroId) {
 
 			ret = 0;
 
-
-	}
+		}
 
 	}
 
 	return ret;
 }
-
-
-/**
- * Obtiene sueldo de un empleado
- * @param this Puntero a empleado
- * @param sueldo sueldo a asignar
- * @return 0 Éxito -1 Error
- */
-
 
 int articulo_getRubroId(eArticulo *this, int *rubroId) {
 
@@ -583,13 +375,41 @@ int articulo_getRubroId(eArticulo *this, int *rubroId) {
 	return ret;
 }
 
-/**
- * Imprime datos de un empleado
- * @param this Puntero a empleado
- * @return 0 Éxito -1 Error
- */
+int articulo_rubroToString(int rubroId, char *rubroString) {
 
+	int ret = -1;
 
+	if (rubroId >= 0 && rubroString != NULL) {
+
+		ret = 0;
+
+		switch (rubroId) {
+
+		case 1:
+
+			strncpy(rubroString, "Cuidado de Ropa", MAX_DESCRIPCION);
+			break;
+
+		case 2:
+
+			strncpy(rubroString, "Limpieza y Desinfeccion", MAX_DESCRIPCION);
+			break;
+
+		case 3:
+
+			strncpy(rubroString, "Cuidado Personal e Higiene", MAX_DESCRIPCION);
+			break;
+
+		case 4:
+
+			strncpy(rubroString, "Cuidado del Automotor", MAX_DESCRIPCION);
+			break;
+		}
+
+	}
+	return ret;
+
+}
 
 int articulo_print(eArticulo *this) {
 
@@ -617,36 +437,15 @@ int articulo_print(eArticulo *this) {
 
 	articulo_getRubroId(this, &rubroId) == 0 &&
 
-	articulo_getPrecio(this, &precio) == 0)
+	articulo_getPrecio(this, &precio) == 0  &&
+
+	articulo_rubroToString(rubroId,descripcionRubro)==0)
+
 
 	{
-		switch(rubroId){
 
-		case 1:
-
-			strncpy(descripcionRubro,"Cuidado de Ropa",MAX_DESCRIPCION);
-			break;
-
-		case 2:
-
-            strncpy(descripcionRubro,"Limpieza y Desinfeccion",MAX_DESCRIPCION);
-			break;
-
-		case 3:
-
-		    strncpy(descripcionRubro,"Cuidado Personal e Higiene",MAX_DESCRIPCION);
-			break;
-
-		case 4:
-
-			strncpy(descripcionRubro,"Cuidado del Automotor",MAX_DESCRIPCION);
-			break;
-
-
-		}
-
-		printf("%10d | %40s  | %10s | %10.2f | %10s\n", id,
-				articulo, medida, precio, descripcionRubro);
+		printf("%10d | %40s  | %10s | %10.2f | %10s\n", id, articulo, medida,
+				precio, descripcionRubro);
 
 	}
 
@@ -654,42 +453,8 @@ int articulo_print(eArticulo *this) {
 
 }
 
-/**
- * Compara mayor sueldo entre dos empleados
- * @param elementA Puntero (void) a castear (EmployeeA)
- * @param elementB Puntero (void) a castear (EmployeeB)
- * @return 0 Error 1 Sueldo de Empleado A mayor -1 Sueldo de Empleado B mayor
- */
 
 
-int articulo_compareByRubroId(void *elementA, void *elementB) {
-
-	int ret = 0;
-	eArticulo *articuloA;
-	eArticulo *articuloB;
-	articuloA = (eArticulo*) elementA;
-	articuloB = (eArticulo*) elementB;
-
-	int rubroA;
-	int rubroB;
-
-	if (articulo_getRubroId(articuloA, &rubroA) == 0 && articulo_getRubroId(articuloB, &rubroB) == 0) {
-
-		if (rubroA > rubroB) {
-
-			ret = 1;
-
-		}
-
-		if(rubroA < rubroB){
-
-			ret = -1;
-		}
-
-	}
-
-	return ret;
-}
 
 int articulo_compareByName(void *elementA, void *elementB) {
 
@@ -700,16 +465,18 @@ int articulo_compareByName(void *elementA, void *elementB) {
 	articuloB = (eArticulo*) elementB;
 
 	char nombreA[MAX_ARTICULO];
-	char nombreB [MAX_ARTICULO];
+	char nombreB[MAX_ARTICULO];
 
-	if (articulo_getArticulo(articuloA,nombreA)==0 && articulo_getArticulo(articuloB,nombreB)==0){
+	if (articulo_getArticulo(articuloA, nombreA) == 0
+			&& articulo_getArticulo(articuloB, nombreB) == 0) {
 
-		if (strncmp(nombreA,nombreB,MAX_ARTICULO)>0){
+		if (strncmp(nombreA, nombreB, MAX_ARTICULO) > 0) {
 
 			ret = 1;
 		}
 
-		if (strncmp(nombreA,nombreB,MAX_ARTICULO)<0){
+
+		if (strncmp(nombreA, nombreB, MAX_ARTICULO) < 0) {
 
 			ret = -1;
 		}
@@ -718,46 +485,101 @@ int articulo_compareByName(void *elementA, void *elementB) {
 	return ret;
 }
 
-void articulo_setFinalPrice(void* Element){
+void articulo_setFinalPrice(void *Element) {
 
 	int rubroIdAux;
 	float precioAux;
 	int idAux;
 	char articuloAux[51];
 	int flagArt = 0;
-	eArticulo* this = (eArticulo*) Element;
+	eArticulo *this = (eArticulo*) Element;
 
+	if (this != NULL) {
 
-	if(this!=NULL){
+		if (articulo_getRubroId(this, &rubroIdAux) == 0
+				&& articulo_getPrecio(this, &precioAux) == 0) {
 
-		if(articulo_getRubroId(this,&rubroIdAux)==0 && articulo_getPrecio(this,&precioAux)==0){
-
-			if(rubroIdAux==1 && precioAux>=120){
-
-				flagArt = 1;
-
-				articulo_setPrecio(this,precioAux*0.8);
-
-
-			}
-
-			else if(rubroIdAux==2 && precioAux<=200){
+			if (rubroIdAux == 1 && precioAux >= 120) {
 
 				flagArt = 1;
 
-				articulo_setPrecio(this,precioAux*0.9);
+				articulo_setPrecio(this, precioAux * 0.8);
 
 			}
 
-			if(flagArt){
+			else if (rubroIdAux == 2 && precioAux <= 200) {
 
-			articulo_getId(this,&idAux);
+				flagArt = 1;
 
-			articulo_getArticulo(this,articuloAux);
+				articulo_setPrecio(this, precioAux * 0.9);
 
-			printf("Se modificó Art. Id %d: %s\n",idAux,articuloAux);
+			}
+
+			if (flagArt) {
+
+				articulo_getId(this, &idAux);
+
+				articulo_getArticulo(this, articuloAux);
+
+				printf("Se modificó Art. Id %d: %s\n", idAux, articuloAux);
 			}
 		}
 	}
+}
+
+
+int articulo_filterByPrice(void *Element){
+
+	int ret = -1;
+
+	float precioAux;
+
+	float filterPrice = 200;
+
+	eArticulo* this = (eArticulo*)Element;
+
+	if(Element!=NULL){
+
+		ret = 0;
+
+
+		if(articulo_getPrecio(this,&precioAux)==0 && precioAux>filterPrice){
+
+			ret = 1;
+
+		}
+
+	}
+
+	return ret;
+
+
+}
+
+
+int articulo_filterByRubroUno(void *Element){
+
+	int ret = -1;
+
+	int rubroIdAux;
+
+	eArticulo* this = (eArticulo*)Element;
+
+	if(Element!=NULL){
+
+		ret = 0;
+
+
+		if(articulo_getRubroId(this,&rubroIdAux)==0 && rubroIdAux==1){
+
+			ret = 1;
+
+		}
+
+	}
+
+	return ret;
+
+
 }
 

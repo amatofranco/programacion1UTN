@@ -1,20 +1,4 @@
-/*
-    utest example : Unit test examples.
-    Copyright (C) <2018>  <Mauricio Davila>
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
 
 #ifndef __LINKEDLIST
 #define __LINKEDLIST
@@ -33,12 +17,58 @@ struct LinkedList
 
 
 
-//Publicas
+/** \brief Crea un nuevo LinkedList en memoria de manera dinamica
+ *  \param void
+ *  \return LinkedList* Retorna (NULL) en el caso de no conseguir espacio en memoria
+ *  o el puntero al espacio reservado
+ */
 LinkedList* ll_newLinkedList(void);
-int ll_len(LinkedList* this);                                       //devuelve el valor del campo int size
+
+/** \brief Retorna la cantidad de elementos de la lista
+ * \param this LinkedList* Puntero a la lista
+ * \return int Retorna (-1) si el puntero es NULL o la cantidad de elementos de la lista
+ *
+ */
+int ll_len(LinkedList* this);
+
+/** \brief Permite realizar el test de la funcion addNode la cual es privada
+ *
+ * \param this LinkedList* Puntero a la lista
+ * \param nodeIndex int Ubicacion donde se agregara el nuevo nodo
+ * \param pElement void* Puntero al elemento a ser contenido por el nuevo nodo
+ * \return int Retorna  (-1) Error: si el puntero a la lista es NULL o (si el indice es menor a 0 o mayor al len de la lista)
+ ( 0) Si funciono correctamente
+ *
+ */
 Node* test_getNode(LinkedList* this, int nodeIndex);
+
+/** \brief Permite realizar el test de la funcion addNode la cual es privada
+ *
+ * \param this LinkedList* Puntero a la lista
+ * \param nodeIndex int Ubicacion del elemento a obtener
+ * \return void* Retorna    (NULL) Error: si el puntero a la lista es NULL o (si el indice es menor a 0 o mayor al len de la lista)
+ (pElement) Si funciono correctamente
+ *
+ */
 int test_addNode(LinkedList* this, int nodeIndex,void* pElement);
+
+/** \brief Agrega y enlaza un nuevo nodo en la ultima posicion de la lista
+ * \param this LinkedList* Puntero a la lista
+ * \param pElement void* Puntero al elemento a ser contenido por el nuevo nodo
+ * \return int Retorna  (-1) Error: si el puntero a la lista es NULL o (si el indice es menor a 0 o mayor al len de la lista)
+ ( 0) Si funciono correctamente
+ *
+ */
 int ll_add(LinkedList* this, void* pElement);
+
+/** \brief Obtiene un elemento de la lista
+ * \param this LinkedList* Puntero a la lista
+ * \param nodeIndex int Ubicacion del elemento a obtener
+ * \param pElement void* Puntero al nuevo elemento
+ * \return int Retorna void* Puntero al elemento o  NULL o (si el indice es menor a 0 o mayor al len de la lista)
+ ( 0) Si funciono correctamente
+ *
+ */
 void* ll_get(LinkedList* this, int index);
 int ll_set(LinkedList* this, int index,void* pElement);
 int ll_remove(LinkedList* this,int index);
