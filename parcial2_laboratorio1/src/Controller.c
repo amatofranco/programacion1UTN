@@ -11,31 +11,38 @@ int controller_loadFromText(LinkedList *pArticuloList) {
 
 	int ret = -1;
 
+	int intentos = 3;
+
 	FILE *fp;
 
 	char path[128];
 
-	if (pArticuloList != NULL
-			&& utn_getArchivo(path, "Ingrese nombre de archivo: datos.csv\n",
-					"Ingreso inválido\n", 2) == 0) {
+	if (pArticuloList != NULL) {
 
-		fp = fopen(path, "r");
+		do {
 
-		if (fp != NULL) {
+			utn_getArchivo(path, "Ingrese nombre de archivo: datos.csv\n",
+					"Ingreso inválido\n", 2);
 
-			if (parser_ArticuloFromText(fp, pArticuloList) == 0) {
+			fp = fopen(path, "r");
 
-				ret = 0;
+			if (fp != NULL) {
 
+				if (parser_ArticuloFromText(fp, pArticuloList) == 0) {
+
+					ret = 0;
+					break;
+
+				}
+				fclose(fp);
 			}
-			fclose(fp);
 
-		}
+			else {
 
-		else {
-
-			printf("No se encuentra el archivo. \n");
-		}
+				printf("No se encuentra el archivo. Intente nuevamente\n");
+				intentos--;
+			}
+		} while (intentos);
 
 	}
 
@@ -177,22 +184,21 @@ int controller_saveAsText(char *path, LinkedList *pArticuloList) {
 	return ret;
 }
 
-int controller_filterByPrice(LinkedList *pArticuloList) {
+int controller_countMayorCien(LinkedList *pArticuloList) {
 
 	int ret = -1;
 
-	LinkedList *filteredList = NULL;
+	int count = -1;
 
 	if (pArticuloList != NULL) {
 
-		filteredList = ll_filter(pArticuloList, articulo_filterByPrice);
+		count = ll_count(pArticuloList, articulo_mayorCien);
 
-		if (filteredList != NULL) {
+		if (count >= 0) {
 
-			controller_ListArticulo(filteredList);
+			printf("Se encontraron %d articulos\n", count);
 
 			ret = 0;
-
 		}
 
 	}
@@ -201,25 +207,21 @@ int controller_filterByPrice(LinkedList *pArticuloList) {
 
 }
 
-
-int controller_countByRubro(LinkedList *pArticuloList) {
+int controller_countRubroUno(LinkedList *pArticuloList) {
 
 	int ret = -1;
 
-	LinkedList *filteredList = NULL;
+	int count = -1;
 
 	if (pArticuloList != NULL) {
 
-		filteredList = ll_filter(pArticuloList, articulo_filterByRubroUno);
+		count = ll_count(pArticuloList, articulo_rubroUno);
 
-		if (filteredList != NULL) {
+		if (count >= 0) {
 
-			controller_ListArticulo(filteredList);
-
-			printf("Se encontraron %d articulos\n",ll_len(filteredList));
+			printf("Se encontraron %d articulos\n", count);
 
 			ret = 0;
-
 		}
 
 	}
@@ -227,5 +229,4 @@ int controller_countByRubro(LinkedList *pArticuloList) {
 	return ret;
 
 }
-
 

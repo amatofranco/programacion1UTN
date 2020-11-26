@@ -528,13 +528,11 @@ void articulo_setFinalPrice(void *Element) {
 }
 
 
-int articulo_filterByPrice(void *Element){
+int articulo_mayorCien(void *Element){
 
 	int ret = -1;
 
 	float precioAux;
-
-	float filterPrice = 200;
 
 	eArticulo* this = (eArticulo*)Element;
 
@@ -543,7 +541,9 @@ int articulo_filterByPrice(void *Element){
 		ret = 0;
 
 
-		if(articulo_getPrecio(this,&precioAux)==0 && precioAux>filterPrice){
+		if(articulo_getPrecio(this,&precioAux)==0 && precioAux>100){
+
+			articulo_print(this);
 
 			ret = 1;
 
@@ -557,7 +557,8 @@ int articulo_filterByPrice(void *Element){
 }
 
 
-int articulo_filterByRubroUno(void *Element){
+
+int articulo_rubroUno(void *Element){
 
 	int ret = -1;
 
@@ -572,6 +573,8 @@ int articulo_filterByRubroUno(void *Element){
 
 		if(articulo_getRubroId(this,&rubroIdAux)==0 && rubroIdAux==1){
 
+			articulo_print(this);
+
 			ret = 1;
 
 		}
@@ -582,4 +585,7 @@ int articulo_filterByRubroUno(void *Element){
 
 
 }
+
+
+
 

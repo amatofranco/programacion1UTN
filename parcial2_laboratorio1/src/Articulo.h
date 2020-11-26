@@ -221,10 +221,21 @@ int articulo_compareByName(void *elementA, void *elementB);
  */
 void articulo_setFinalPrice(void* Element);
 
+/**
+ * Verifica si el Artículo pertenece al Rubro Id 1
+ * @param Element Puntero al Elemento(Artículo)
+ * @return 1 PERTENECE 0 NO PERTENECE -1 ERROR (puntero Nulo)
+ */
+int articulo_rubroUno(void *Element);
 
-int articulo_filterByPrice(void *Element);
+/**
+ * Verifica si el precio del Artículo es mayor a 100
+ * @param Element Puntero al Elemento(Artículo)
+ * @return 1 PERTENECE 0 NO PERTENECE -1 ERROR (puntero Nulo)
+ */
+int articulo_mayorCien(void *Element);
 
-int articulo_filterByRubroUno(void *Element);
+
 
 
 

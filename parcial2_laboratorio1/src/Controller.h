@@ -40,11 +40,19 @@ int controller_setFinalPrice(LinkedList *pArticuloList);
 
 int controller_saveAsText(char* path , LinkedList* pArticuloList);
 
+/**
+ * Informa la cantidad de articulos de la lista cuyo precio sea mayor a 100
+ * @param pArticuloList Puntero a LinkedList de Articulos
+ * @return 0 Éxito -1 Error
+ */
+int controller_countMayorCien(LinkedList *pArticuloList);
 
+/**
+ * Informa la cantidad de articulos de la lista que sean del rubro 1
+ * @param pArticuloList Puntero a LinkedList de Articulos
+ * @return 0 Éxito -1 Error
+ */
 
-
-int controller_filterByPrice(LinkedList* pArticuloList);
-
-int controller_countByRubro(LinkedList *pArticuloList);
+int controller_countRubroUno(LinkedList *pArticuloList);
 
 

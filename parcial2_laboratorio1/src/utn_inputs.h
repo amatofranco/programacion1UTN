@@ -53,8 +53,14 @@ int utn_getNegativo(int *pResultado, char *mensaje, char *mensajeError,
 
 int utn_getNombre(char *pResultado, char *mensaje, char *mensajeError,int reintentos);
 
-
-
+/**
+ * Pide y obtiene un nombre de un posible archivo, contemplando caracteres como . o _
+ * @param pResultado puntero a direccion de memoria donde guardará el nombre
+ * @param mensaje Mensaje para pedir el nombre
+ * @param mensajeError Mensaje para indicar ingreso inválido
+ * @param reintentos cantidad de reintentos
+ * @return 0 Éxito -1 Error
+ */
 
 
 int utn_getArchivo(char *pResultado, char *mensaje, char *mensajeError,

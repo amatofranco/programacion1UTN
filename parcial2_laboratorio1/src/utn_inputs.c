@@ -78,8 +78,19 @@ static int esNombre(char *cadena, int limite);
  */
 static int getNombre(char *pResultado);
 
-
+/**
+ * Verifica si la cadena pertenece a un posible nombre de archivo
+ * @param cadena cadena a analizar
+ * @param limite largo de la cadena
+ * @return 1 VERDADERO 0 FALSO
+ */
 static int esArchivo(char *cadena, int limite);
+
+/**
+ * Obtiene una cadena de un posible nombre de archivo, contemplando caracteres como . o /
+ * @param pResultado Puntero a espacio en memoria donde será guardada la cadena
+ * @return 0 Éxito -1 Error
+ */
 
 static int getArchivo(char *pResultado);
 

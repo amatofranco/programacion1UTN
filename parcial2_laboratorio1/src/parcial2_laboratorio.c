@@ -63,9 +63,9 @@ int main(void) {
 
 				"5. Generar el archivo de salida: mapeado.csv\n"
 
-				"6. Filtrar articulos con precio mayor a 200\n"
+				"6. Informar Cantidad de Articulos con precio mayor a 100\n"
 
-				"7. Contar articulos Rubro 1\n"
+				"7. Informar Cantidad de Artículos del Rubro 1\n"
 
 				"8. Salir\n"
 				"/*****************************************************/\n"
@@ -196,12 +196,13 @@ int main(void) {
 				printf("No existen artículos cargados para realizar la operación\n");
 			}
 
-			else if (controller_filterByPrice(listaArticulos) == 0) {
+			else if (controller_countMayorCien(listaArticulos) == 0) {
 
 				printf("Operación exitosa\n");
 
 			}
 			break;
+
 
 		case 7:
 
@@ -209,7 +210,7 @@ int main(void) {
 				printf("No existen artículos cargados para realizar la operación\n");
 			}
 
-			else if (controller_countByRubro(listaArticulos) == 0) {
+			else if (controller_countRubroUno(listaArticulos) == 0) {
 
 				printf("Operación exitosa\n");
 
